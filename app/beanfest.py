@@ -1,3 +1,0 @@
-"""
-    serve + interact with /beanfest
-"""
