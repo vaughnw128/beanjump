@@ -9,7 +9,7 @@ from app.models import Score
 @app.route('/beanjump')
 def beanjump():
     return render_template('beanjump.html')
-
+"""
 @socketio.on('new score', namespace='/beanjumpdata')
 def add_score(message):
     already = False
@@ -19,16 +19,27 @@ def add_score(message):
         #print('checking duplicate: ' + score.username + ' and ' + message[0] + '\t' + str(score.score) + ' and ' + str(message[1]))
         if score.username == message[0]:
             already = True
+            
+            try:
+                a = int(message[1])
+                print('throwing error time')
+            except ValueError:
+                return
+            print('adding new score')
+            
+            if score.score > message[1]:
+                return
+
             new = Score(username=message[0], score=message[1])
             db.session.delete(score)
             db.session.add(new)
             db.session.commit()
-
+    
     if not already:
         new = Score(username=message[0], score=message[1])
         db.session.add(new)
         db.session.commit()
-
+"""
 @socketio.on('get scores', namespace='/beanjumpdata')
 def get_scores(message):
     sending = []
