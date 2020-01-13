@@ -662,6 +662,11 @@ function submitScore() {
 
 	}
 
+	if (typeof best_score != 'number') {
+		alert('fuck you penis');
+		best_score = 0;
+		return;
+	}
 	socket.emit('new score', [username, best_score]);
 }
 
