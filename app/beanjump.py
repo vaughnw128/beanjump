@@ -51,13 +51,6 @@ def add_score(message):
         if score.username == message[0]:
             already = True
             
-            try:
-                a = int(message[1])
-                print('throwing error time')
-            except ValueError:
-                return
-            print('adding new score')
-            
             if score.score > message[1]:
                 return
 
