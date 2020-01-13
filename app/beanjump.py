@@ -6,13 +6,44 @@ from flask import render_template, url_for
 from app import app, socketio, db, emit
 from app.models import Score
 
+def isNum(s):
+    s = int(s)
+    if s >= 0 and s <= 10:
+        return True
+    return False
+
+def isUsername(name):
+    try:
+        for char in list(name):
+            if not char.isalpha() and not isNum(char):
+                return False
+        
+        if len(name) > 12:
+            return False
+    except:
+        return False
+        
+    return True
+
+
 @app.route('/beanjump')
 def beanjump():
     return render_template('beanjump.html')
-"""
+
 @socketio.on('new score', namespace='/beanjumpdata')
 def add_score(message):
     already = False
+    print('submit score request: username={}\tscore={}'.format(message[0], message[1]))
+
+    try:
+        int(message[1])
+    except ValueError:
+        print('score wasnt integer, stopping')
+        return
+    
+    if not isUsername(message[0]):
+        print('username is wrong, exiting')
+        return
 
     # make sure there's no exact duplicates
     for score in Score.query.all():
@@ -39,7 +70,7 @@ def add_score(message):
         new = Score(username=message[0], score=message[1])
         db.session.add(new)
         db.session.commit()
-"""
+
 @socketio.on('get scores', namespace='/beanjumpdata')
 def get_scores(message):
     sending = []
