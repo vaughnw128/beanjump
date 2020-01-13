@@ -200,8 +200,6 @@ function checkKeys() {
 function updateCookie(name, value) {
 	document.cookie = name + '=' + value + ';';
 }
-var socket;
-
 // read cookies for high score and keybinds, if they exist
 window.onload = function() {
 	if (document.cookie == '') return;
@@ -226,61 +224,6 @@ window.onload = function() {
 
 	requestUpdatedScores();
 }
-
-socket = io.connect('http://' + document.domain + ':' + location.port + '/beanjumpdata');
-
-function submitScore() {
-	let username = prompt('enter a username to submit with ur score: (alphanumeric characters only, 12 character limit)');
-
-	while (!username.match(/^[a-z0-9]+$/i) || username.length > 12) {
-
-		if (!username.match(/^[a-z0-9]+$/i)) {
-			username = prompt('alphanumeric only please');
-			continue;
-		}
-
-		if (username.length > 12) {
-			username = prompt('less than 12 characters please');
-			continue;
-		}
-
-	}
-
-	if (typeof best_score != 'number') {
-		alert('fuck you penis');
-		best_score = 0;
-		return;
-	}
-	socket.emit('new score', [username, best_score]);
-}
-
-function requestUpdatedScores() {
-	socket.emit('get scores', []);
-}
-
-socket.on('update', (msg) => {
-	let hsdiv = document.getElementById('highscores');
-	hsdiv.style.display = 'block';
-
-	let hs = document.getElementById('hslist');
-	hs.innerHTML = '';
-
-	for (let i = 0; i < msg.length; i++) {
-		let ns = document.createElement('li');
-		ns.innerHTML = msg[i][0] + ': ' + msg[i][1];
-		hs.appendChild(ns);
-	}
-	
-});
-
-function findRank() {
-	let username = prompt('enter the username to search for (capitals matter)');
-	socket.emit('find score', username);
-}
-
-socket.on('found score', (msg) => {
-	alert('user ' + msg.username + ' has a high score of ' + msg.highscore + ' and is ranked #' + msg.rank);
-});
 
 //runs the game at a specified fps
 //dont touch i dont know how it works
