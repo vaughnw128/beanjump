@@ -207,7 +207,11 @@ window.onload = function() {
 
 	for (let i = 0; i < c.length; i++) {
 		if (c[i].slice(0,10) == 'highscore=') {
-			best_score = parseInt((c[i].slice(10, c[0].length)));
+			try {
+				best_score = parseInt((c[i].slice(10, c[0].length)));
+			} catch {
+				best_score = 0;
+			}
 			document.getElementById('best').innerHTML = 'Best score: ' + best_score;
 		}
 
