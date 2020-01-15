@@ -413,3 +413,154 @@ class Player {
 		this.rep.style.top = constrain(parseInt(this.rep.style.top) + this.velocityY, 0, base_y) + 'px';
 	}
 }
+
+function constrain(val, min, max) { // used in moving player around
+	if (val > max) {
+		val = max;
+	}
+	if (val < min) {
+		val = min;
+	}
+	return val;
+}
+
+function getCharFromCode(code) {
+	if (code == 40) {
+		return 'DOWN_ARROW';
+	}
+	if (code == 39) {
+		return 'RIGHT_ARROW';
+	}
+	if (code == 38) {
+		return 'UP_ARROW';
+	}
+	if (code == 37) {
+		return 'LEFT_ARROW';
+	}
+
+	return String.fromCharCode(code);
+}
+
+function pause() {
+	if ((new Date().getTime() - lastPaused)/1000 > 1) {
+		unpaused = false;
+		lastPaused = new Date().getTime();
+
+		// need to make the pause text and background each time because otherwise it blocks the menu screen button and link
+		let p_background = document.createElement('div');
+		p_background.setAttribute('id','pause_background');
+		p_background.classList.add('pause_background');
+		p_background.style.width = $(window).width() + 'px';
+		p_background.style.height = $(window).height() + 'px';
+		p_background.style.left = '0px';
+		p_background.style.top = '0px';
+		document.body.appendChild(p_background);
+		p_background.style.zIndex = 400;
+
+		let p_text = document.createElement('div');
+		p_text.setAttribute('id', 'pause_text');
+		p_text.classList.add('pause_text');
+		p_text.innerHTML = 'Paused<br>Press ' + getCharFromCode(pause_key) + ' to continue';
+		document.body.appendChild(p_text);
+		p_text.style.left = $(window).width()/2 - p_text.clientWidth/2 + 'px';
+		p_text.style.top = $(window).height()/2 - p_text.clientHeight/2 + 'px';
+		p_text.style.zIndex = 401;
+	}
+}
+
+function unpause() {
+	if ((new Date().getTime() - lastPaused)/1000 > 1) {
+		document.body.removeChild(document.getElementById('pause_background'));
+		document.body.removeChild(document.getElementById('pause_text'));
+		let countdown = document.createElement('div');
+		countdown.classList.add('countdown');
+		countdown.innerHTML = '<b>3</b>';
+		document.body.appendChild(countdown);
+		countdown.style.zIndex = 400;
+		countdown.style.left = $(window).width()/2 - countdown.clientWidth/2 + 'px';
+		countdown.style.top = $(window).height()/2 - countdown.clientHeight/2 + 'px';
+
+		setTimeout(function() {
+			countdown.innerHTML = '<b>2</b>';
+			countdown.style.left = $(window).width()/2 - countdown.clientWidth/2 + 'px';
+			countdown.style.top = $(window).height()/2 - countdown.clientHeight/2 + 'px';
+		}, 1000);
+		setTimeout(function() {
+			countdown.innerHTML = '<b>1</b>';
+			countdown.style.left = $(window).width()/2 - countdown.clientWidth/2 + 'px';
+			countdown.style.top = $(window).height()/2 - countdown.clientHeight/2 + 'px';
+		}, 2000);
+		setTimeout(function() { 
+			document.body.removeChild(countdown);
+			unpaused = true;
+			lastPaused = new Date().getTime();
+		}, 3000);
+	}
+}
+
+function changeCarrots() {
+	carrots_only = !carrots_only;
+	alert('carrots only has been ' + ((carrots_only) ? 'enabled' : 'disabled'));
+}
+
+window.onkeydown = function(e) {
+	let key = e.keyCode ? e.keyCode : e.which;
+
+	if (rebinding != null) {
+		if (rebinding == 'jump') {
+			jump_key = key;
+		} else if (rebinding == 'pause') {
+			pause_key = key;
+		} else if (rebinding == 'right') {
+			right_key = key;
+		} else {
+			left_key = key;
+		}
+		rebinding = null;
+
+		updateCookie('keys', left_key + ',' + jump_key + ',' + right_key + ',' + pause_key);
+		return;
+	}
+
+	keys[key] = true;
+	
+	if (keys[jump_key]) {
+		if (! running) {
+			startGame(60);
+		}
+	}
+}
+
+window.onkeyup = function(e) {
+	let key = e.keyCode ? e.keyCode : e.which;
+	keys[key] = false;
+}
+
+function checkKeys() {
+	if (keys[jump_key]) {
+		if (parseInt(player.rep.style.top) == base_y) {
+			player.jumpin = true;
+		}
+	}
+	if (keys[left_key]) {
+		player.accelX -= 10;
+	}
+	if (keys[right_key]) {
+		player.accelX += 10;
+	}
+	if (keys[pause_key]) {
+		if (unpaused) {
+			pause();
+		} else {
+			unpause();
+		}
+	}
+}
+
+function rebind(key) {
+	rebinding = key;
+}
+
+function updateCookie(name, value) {
+	document.cookie = name + '=' + value + ';';
+}
