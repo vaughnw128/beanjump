@@ -2,8 +2,20 @@
 <html>
     <head>
         <title>Beans Jump</title>
-    </head>
-    <body>
-        <h1>multiplayer bean jump coming soon</h1>
+        <script src="https://cdn.socket.io/socket.io-1.0.0.js"></script>
+        </head>
+    <body style="overflow:scroll;">
+        <div id='menu_stuff'>
+            <button id="randomQ" onclick="enterQueue()">Enter Queue</button>
+
+            <button id="friendQ" onclick="playWithFriend()">Play with Friend</button>
+
+            <div id='queue_status'></div>
+        </div>
+        <div id='game_stuff' style="display:none;">
+
+        </div>
+
+        <script src="{{ url_for('static', filename='beansjump-queue.js') }}"></script>
     </body>
 </html>

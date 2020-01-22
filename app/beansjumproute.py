@@ -2,22 +2,54 @@
     handle MULTIPLAYER BEAN JUMP BABY OH YEAH YEAH
 """
 
-from flask import render_template, url_for
+from flask import render_template, url_for, request
 from app import app, socketio, emit
 from werkzeug.contrib.cache import SimpleCache
 
 gamecodes = SimpleCache(default_timeout=0)
+waiting = SimpleCache(default_timeout=0)
+waitingIndex = 0
 
+debug = open('../debug.txt', 'w+')
+debug.write('')
+debug.close()
+
+debug = open('../debug.txt', 'a')
 
 @app.route('/beansjump')
 def beansjump():
     return render_template('beansjump.html')
 
-@socketio.on('playwith', namespace='/mmbj')
-def checkAvailable(message):
+@socketio.on('enter queue', namespace='/mmbj')
+def enterQueue(message):
+    global waitingIndex, waiting, debug
+    debug.write('something happening')
+    for i in range(waitingIndex):
+        if waiting.has(i):
+            debug.write('queue has someone in it already: ' + request.sid)
+            opponent = waiting.get(i)
+            emit('found game', '', room=opponent)
+            emit('found game', '', room=request.sid)
+            waiting.delete(i)
+            return
+    waiting.set(waitingIndex, request.sid)
+    waitingIndex += 1
+    debug.write('added request.sid ' + request.sid + ' to queue')
+
+@socketio.on('cancel queue', namespace='/mmbj')
+def cancelQueue(message):
+    global waitingIndex, waiting
+    for i in range(waitingIndex):
+        if waiting.get(i) == request.sid:
+            waiting.delete(i)
+            return
+
+@socketio.on('play with', namespace='/mmbj')
+def enterFriendQueue(message):
+    global gamecodes
     # message will be a string thats the game code
 
-    if gamecodes.get(message):
+    if gamecodes.has(message):
         # someone is waiting with the same code
         # delete the existing cache code and move both player ids into game
         # to emit to a specific player:
@@ -29,19 +61,14 @@ def checkAvailable(message):
 
     gamecodes.set(message, request.sid)
 
-    
+@socketio.on('cancel with', namespace='/mmbj')
+def leaveFriendQueue(message):
+    pass
+
 
 """
 
 notes
-
-two options to "queue:" actual queue and play vs friend
-implement vs friend first
-
-there's a button, "join game" on click opens an input box/prompt
-type in anything u want (text only?)
-socket sends to server, stores it in "joinCache" or whatever
-if it goes to store and there's another one of the samething, it gets both player ids and puts them in the game
 
 actual game is "split" screen where the two players are on the same screen. there is a line down the middle that they can't cross.
 veg spawn rates are maybe reduced but veggies are mirrored across both sides.
