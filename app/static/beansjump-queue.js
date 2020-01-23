@@ -36,4 +36,5 @@ function playWithFriend() {
 
 socket.on('found game', () => {
     alert('found a game!');
+    startGame(60);
 });

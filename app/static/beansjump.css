@@ -1,0 +1,49 @@
+.player {
+    position: absolute;
+    width: 3.6458%;
+    height: 5.5555%;
+    z-index: 95;
+}
+
+.ground {
+    background-color: #19e03a;
+    position: absolute;
+    z-index: 90;
+}
+
+.sky {
+    background-color: #19869c;
+    position: absolute;
+    z-index: 89;
+}
+
+.vegetable {
+    position: absolute;
+    z-index: 91;
+}
+
+.score {
+    position: absolute;
+    color: white;
+    font-size: 400%;
+    text-shadow: 2px 2px 0px black;
+    z-index: 92;
+}
+
+.flipped {
+    transform: rotate(180deg);
+}
+
+.mirror {
+    transform: scaleX(-1);
+}
+
+.flippedMirror {
+    transform: rotate(180deg) scaleX(-1);
+}
+
+.floaty {
+    position: absolute;
+    color: yellow;
+    font-size: 300%;
+}

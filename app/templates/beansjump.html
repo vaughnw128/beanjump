@@ -3,12 +3,15 @@
     <head>
         <title>Beans Jump</title>
         <script src="https://cdn.socket.io/socket.io-1.0.0.js"></script>
+        <link rel="icon" type="image" href="{{ url_for('static', filename='images/bean_icon.png') }}">
         </head>
     <body style="overflow:scroll;">
         <div id='menu_stuff'>
             <button id="randomQ" onclick="enterQueue()">Enter Queue</button>
 
             <button id="friendQ" onclick="playWithFriend()">Play with Friend</button>
+
+            <div id='bruh'></div>
 
             <div id='queue_status'></div>
         </div>

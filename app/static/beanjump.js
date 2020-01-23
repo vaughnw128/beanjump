@@ -602,6 +602,17 @@ sky.style.height = $(window).height() + 'px';
 sky.style.top = '0px';
 sky.style.left = '0px';
 
+let widden = false;
+function wideIt() {
+	let p = document.getElementById('player');
+	if (widden) {
+		p.style.width = '70px';
+	} else {
+		p.style.width = '70%';
+	}
+	widden = !widden;
+}
+
 ////console.log($(window).width());
 
 ground.style.width = $(window).width() + 'px';
