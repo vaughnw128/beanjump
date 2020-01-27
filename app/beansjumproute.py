@@ -5,10 +5,15 @@
 from flask import render_template, url_for, request
 from app import app, socketio, emit
 from werkzeug.contrib.cache import SimpleCache
+from app.beansjump import BeanJump
 
 gamecodes = SimpleCache(default_timeout=0)
 waiting = SimpleCache(default_timeout=0)
 waitingIndex = 0
+
+games = [] # bean jump instances
+onGame = 0
+players = {} # points players to the correct instance
 
 debug = open('../debug.txt', 'w+')
 debug.write('')
@@ -20,16 +25,28 @@ debug = open('../debug.txt', 'a')
 def beansjump():
     return render_template('beansjump.html')
 
+@socketio.on('key data', namespace='/mmbj')
+def updateGame(message):
+    emit('next', games[players[request.sid]].update(request.sid, message))
+
 @socketio.on('enter queue', namespace='/mmbj')
 def enterQueue(message):
-    global waitingIndex, waiting, debug
+    global waitingIndex, waiting, debug, games, players, onGame
     debug.write('something happening')
     for i in range(waitingIndex):
         if waiting.has(i):
             debug.write('queue has someone in it already: ' + request.sid)
             opponent = waiting.get(i)
-            emit('found game', '', room=opponent)
-            emit('found game', '', room=request.sid)
+            new = BeanJump(opponent, request.sid)
+            players[opponent] = onGame
+            players[request.sid] = onGame
+
+            games.append(new)
+
+            emit('found game', {'p1': games[onGame].players[request.sid].getPos(), 'p2': games[onGame].players[opponent].getPos()}, room=opponent)
+            emit('found game', {'p1': games[onGame].players[opponent].getPos(), 'p2': games[onGame].players[request.sid].getPos()}, room=request.sid)
+
+            onGame += 1
             waiting.delete(i)
             return
     waiting.set(waitingIndex, request.sid)
@@ -69,10 +86,6 @@ def leaveFriendQueue(message):
 """
 
 notes
-
-actual game is "split" screen where the two players are on the same screen. there is a line down the middle that they can't cross.
-veg spawn rates are maybe reduced but veggies are mirrored across both sides.
-veggies ignore the center line, go right through to the other player's side
 
 the entire game, vegetable spawns, is handled on the server. client side JS sends the player's movement to the server, the server interprets
 then sends back the other player's movements + any vegetables that need to be killed
