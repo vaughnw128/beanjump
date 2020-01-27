@@ -44,6 +44,9 @@ def add_score(message):
     if not isUsername(message[0]):
         print('username is wrong, exiting')
         return
+    
+    if int(message[1]) >= 1000000000 or int(message[1]) % 10 != 0:
+        return
 
     # make sure there's no exact duplicates
     for score in Score.query.all():

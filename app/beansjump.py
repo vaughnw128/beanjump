@@ -2,6 +2,12 @@
     the thing that will decide when to spawn a new veg and run the game u know
     needs to be a class so that it can be replicated
 """
+def constrain(val, min, max):
+    if val < min:
+        val = min
+    if val > max:
+        val = max
+    return val
 
 class BeanJump:
 
@@ -41,6 +47,9 @@ class Player:
 
         self.xvel = 0
         self.yvel = 0
+
+        self.maxVelX = 1.3
+        self.maxVelY = 2.2
     
     def getPos(self):
         return { 'left': self.left, 'top': self.top }
