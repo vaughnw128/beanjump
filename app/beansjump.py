@@ -62,13 +62,13 @@ class Player:
 
     def update(self, keys):
         if keys['jumping']:
-            self.accelY = -6.67
+            self.accelY = -(6.67*2)
         
         if keys['lefting']:
-            self.accelX -= 0.52
+            self.accelX -= 1.10
         
         if keys['righting']:
-            self.accelX += 0.52
+            self.accelX += 1.10
 
         self.velocityX = constrain(self.velocityX + self.accelX, -1*self.maxVelX, self.maxVelX)
         self.velocityY = constrain(self.velocityY + self.gravity + self.accelY, -1*self.maxVelY, self.maxVelY)

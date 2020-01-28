@@ -76,7 +76,7 @@ function checkKeys() {
     if (keys[right_key]) {
         sending.righting = true;
     }
-    console.log(sending);
+    //console.log(sending);
     socket.emit('key data', sending);
 }
 var player, enemy;
@@ -181,7 +181,7 @@ socket.on('found game', (msg) => {
 });
 
 socket.on('next', (msg) => {
-    console.log(msg);
+    //console.log(msg);
     let mid = player.sid;
     let eid = enemy.sid;
     player.rep.style.left = msg.players[mid].left + '%';
