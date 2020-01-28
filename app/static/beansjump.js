@@ -185,4 +185,5 @@ socket.on('next', (msg) => {
     let mid = player.sid;
     let eid = enemy.sid;
     player.rep.style.left = msg.players[mid].left + '%';
+    enemy.rep.style.left = msg.players[eid].left + '%';
 });
