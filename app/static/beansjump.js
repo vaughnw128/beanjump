@@ -39,7 +39,9 @@ class Player {
     // player 1 spawns on the left side of the screen, player 2 on the right
     // after constructoring, an arrow will appear pointing down towards the player the client is while a timer ticks down on the server
     // once server timer is done it will emit something to start the game
-    constructor(left, top, rep) {
+    constructor(left, top, rep, sid) {
+        this.sid = sid;
+
         this.rep = rep;
         this.left = left;
         this.top = top;
@@ -62,7 +64,7 @@ window.onkeyup = function(e) {
 }
 
 function checkKeys() {
-    let sending = {};
+    let sending = {jumping: false, lefting: false, righting: false};
     if (keys[jump_key]) {
         sending.jumping = true;
     }
@@ -74,12 +76,12 @@ function checkKeys() {
     if (keys[right_key]) {
         sending.righting = true;
     }
-
+    console.log(sending);
     socket.emit('key data', sending);
 }
 var player, enemy;
 let jump_key = 38, left_key = 37, right_key = 39, lose_key = 80;
-
+var stop = false;
 let fpsInterval, then, startTime, elapsed;
 function startGame(fps) {
     document.body.style.overflow = 'hidden';
@@ -91,13 +93,17 @@ function startGame(fps) {
 }
 
 function runGame() {
+    requestAnimationFrame(runGame);
     now = Date.now();
     elapsed = now - then;
 
+    if (stop) {
+        return;
+    }
+
     if (elapsed > fpsInterval) {
         then = now - (elapsed % fpsInterval);
-
-        
+        checkKeys();
     }
 }
 
@@ -149,11 +155,17 @@ socket.on('found game', (msg) => {
     gs.appendChild(p);
     gs.appendChild(e);
 
-    player = new Player(msg.p1.left, msg.p1.top, p);
-    enemy = new Player(msg.p2.left, msg.p2.top, e);
+    player = new Player(msg.p1.left, msg.p1.top, p, msg.me);
+    enemy = new Player(msg.p2.left, msg.p2.top, e, msg.enemy);
 
     player.rep.classList.add('player');
     enemy.rep.classList.add('player');
+
+    player.rep.style.width = '3.6458%';
+    player.rep.style.height = '5.5555%';
+
+    enemy.rep.style.width = '3.6458%';
+    enemy.rep.style.height = '5.5555%';
 
     player.rep.style.position = 'absolute';
     enemy.rep.style.position = 'absolute';
@@ -166,4 +178,11 @@ socket.on('found game', (msg) => {
     document.getElementById('menu_stuff').style.display = 'none';
     document.getElementById('game_stuff').style.display = 'block';
     startGame(60);
+});
+
+socket.on('next', (msg) => {
+    console.log(msg);
+    let mid = player.sid;
+    let eid = enemy.sid;
+    player.rep.style.left = msg.players[mid].left + '%';
 });
