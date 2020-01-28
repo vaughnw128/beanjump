@@ -79,6 +79,8 @@ class Player:
         self.accelX = math.ceil(self.accelX/4) if self.accelX < 0 else math.floor(self.accelX/4)
         self.accelY = math.ceil(self.accelY/2) if self.accelY < 0 else math.floor(self.accelY/2)
 
+        self.velocityX = math.ceil(self.velocityX/2) if self.velocityX < 0 else math.floor(self.velocityX/2)
+
         # need to check if its off the screen
 
 
