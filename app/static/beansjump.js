@@ -177,7 +177,7 @@ socket.on('found game', (msg) => {
 
     document.getElementById('menu_stuff').style.display = 'none';
     document.getElementById('game_stuff').style.display = 'block';
-    startGame(60);
+    startGame(30);
 });
 
 socket.on('next', (msg) => {
