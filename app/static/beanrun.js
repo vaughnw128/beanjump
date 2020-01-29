@@ -1,0 +1,9 @@
+/*
+    make bean run
+    just like geometry dash or something idk
+    google game
+    screen scrolls back
+    you bean can move back and forth on the screen a little
+    jump
+    yeah
+*/

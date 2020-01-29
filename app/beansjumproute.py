@@ -41,10 +41,10 @@ def enterQueue(message):
             players[opponent] = onGame
             players[request.sid] = onGame
 
-            games.append(new)
+            emit('found game', {'p1': {'left':new.player2.left,'top':new.player2.top}, 'p2': {'left':new.player1.left,'top':new.player1.top}, 'me':opponent,'enemy':request.sid}, room=opponent)
+            emit('found game', {'p1': {'left':new.player1.left,'top':new.player1.top}, 'p2': {'left':new.player2.left,'top':new.player2.top}, 'me':request.sid,'enemy':opponent}, room=request.sid)
 
-            emit('found game', {'p1': games[onGame].player2.getPos(), 'p2': games[onGame].player1.getPos(), 'me':opponent,'enemy':request.sid}, room=opponent)
-            emit('found game', {'p1': games[onGame].player1.getPos(), 'p2': games[onGame].player2.getPos(), 'me':request.sid,'enemy':opponent}, room=request.sid)
+            games.append(new)
 
             onGame += 1
             waiting.delete(i)

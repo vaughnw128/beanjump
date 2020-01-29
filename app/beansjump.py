@@ -35,7 +35,8 @@ class Player:
 
     """
         handle player's position, speed/movement, score, eventually skin + username
-        probably not object avoidance, i'll build that into vegetable class
+       ~~ probably not object avoidance, i'll build that into vegetable class ~~
+       definitely not object avoidance, thatll be client side because i wont store all the veggies server side
     """
 
     def __init__(self, id, first=False):
@@ -49,18 +50,12 @@ class Player:
 
         self.accelX = 0
         self.accelY = 0
-        self.gravity = 0.17
-
-        self.velocityX = 0
-        self.velocityY = 0
-
-        self.maxVelX = 1.3
-        self.maxVelY = 2.2
     
     def getPos(self):
-        return { 'left': self.left, 'top': self.top }
+        return { 'accelX': self.accelX, 'accelY': self.accelY }
 
     def update(self, keys):
+        self.accelY = self.accelX = 0
         if keys['jumping']:
             self.accelY = -(6.67*2)
         
@@ -70,30 +65,23 @@ class Player:
         if keys['righting']:
             self.accelX += 1.10
 
-        self.velocityX = constrain(self.velocityX + self.accelX, -1*self.maxVelX, self.maxVelX)
-        self.velocityY = constrain(self.velocityY + self.gravity + self.accelY, -1*self.maxVelY, self.maxVelY)
-
-        self.left += self.velocityX
-        self.top += self.velocityY
-
-        self.accelX = math.ceil(self.accelX/4) if self.accelX < 0 else math.floor(self.accelX/4)
-        self.accelY = math.ceil(self.accelY/2) if self.accelY < 0 else math.floor(self.accelY/2)
-
-        self.velocityX = math.ceil(self.velocityX/2) if self.velocityX < 0 else math.floor(self.velocityX/2)
-
-        # need to check if its off the screen
-
 
 class Vegetable:
     
-    def __init__(self, leafyGreen, side):
+    def __init__(self):
         self.leafyGreen = leafyGreen # 0 1 2
         self.speed = 0 # define later
+        self.cooldown = 0
 
         self.speed *= -1 if side == 'right' else 1
         self.y = [69, 60, 40][self.leafyGreen]
         self.x = 100 if side == 'right' else -10
 
-    def update(self):
-        self.x += speed
-        # todo: check if veg is off screen
+    def make(self): 
+        pass
+
+    def isTime(self):
+        if self.cooldown <= 0:
+            return True
+        self.cooldown -= 1
+        return False

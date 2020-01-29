@@ -1,3 +1,13 @@
+function constrain(val, min, max) {
+    if (val < min) {
+        return min;
+    }
+    if (val > max) {
+        return max;
+    }
+    return val;
+}
+
 class FloatyText {
 	constructor(txt, player) {
 		this.me = document.createElement('div');
@@ -45,7 +55,33 @@ class Player {
         this.rep = rep;
         this.left = left;
         this.top = top;
+        console.log(`left: ${this.left}\ttop: ${this.top}`)
 
+        this.rep.style.top = this.top + '%';
+
+        this.velocityX = 0;
+        this.velocityY = 0;
+
+        this.accelX = 0;
+        this.accelY = 0;
+        this.gravity = 0;
+
+        this.maxVelX = 1.3;
+        this.maxVelY = 2.2;
+    }
+
+    update() {
+        this.velocityX = constrain(this.velocityX + this.accelX, -1*this.maxVelX, this.maxVelX);
+        this.velocityY = constrain(this.velocityY + this.accelY + this.gravity, -1*this.maxVelY, this.maxVelY);
+        this.velocityX = Math.abs(this.velocityX) < 0.1 ? 0 : this.velocityX/2;
+        this.left += this.velocityX;
+        this.top = constrain(this.top + this.velocityY, 66, 100);
+
+        this.accelX = Math.abs(this.accelX) < 0.1 ? 0 : this.accelX/4;
+        this.accelY = Math.abs(this.accelY) < 0.1 ? 0 : this.accelY/2;
+        console.log(`accelX: ${this.accelX}\tvelX: ${this.velocityX}`);
+        // check if off sides
+        this.rep.style.left = this.left + '%';
         this.rep.style.top = this.top + '%';
     }
 }
@@ -104,6 +140,8 @@ function runGame() {
     if (elapsed > fpsInterval) {
         then = now - (elapsed % fpsInterval);
         checkKeys();
+        player.update();
+        enemy.update();
     }
 }
 
@@ -144,6 +182,7 @@ function playWithFriend() {
 }
 
 socket.on('found game', (msg) => {
+    console.log(msg);
     let p = document.createElement('img');
     let e = document.createElement('img');
 
@@ -184,6 +223,12 @@ socket.on('next', (msg) => {
     //console.log(msg);
     let mid = player.sid;
     let eid = enemy.sid;
-    player.rep.style.left = msg.players[mid].left + '%';
-    enemy.rep.style.left = msg.players[eid].left + '%';
+    player.accelX = msg.players[mid].accelX;
+    player.accelY = msg.players[mid].accelY;
+    enemy.accelX = msg.players[eid].accelX;
+    enemy.accelY = msg.players[eid].accelY;
+});
+
+socket.on('newveg', (msg) => {
+    // make bean run
 });
