@@ -64,7 +64,7 @@ class Player {
 
         this.accelX = 0;
         this.accelY = 0;
-        this.gravity = 0;
+        this.gravity = 0.17;
 
         this.maxVelX = 1.3;
         this.maxVelY = 2.2;
@@ -75,11 +75,12 @@ class Player {
         this.velocityY = constrain(this.velocityY + this.accelY + this.gravity, -1*this.maxVelY, this.maxVelY);
         this.velocityX = Math.abs(this.velocityX) < 0.1 ? 0 : this.velocityX/2;
         this.left += this.velocityX;
-        this.top = constrain(this.top + this.velocityY, 66, 100);
+        this.top = constrain(this.top + this.velocityY, 0, 66);
 
         this.accelX = Math.abs(this.accelX) < 0.1 ? 0 : this.accelX/4;
         this.accelY = Math.abs(this.accelY) < 0.1 ? 0 : this.accelY/2;
-        console.log(`accelX: ${this.accelX}\tvelX: ${this.velocityX}`);
+        //console.log(`accelX: ${this.accelX}\tvelX: ${this.velocityX}`);
+        //console.log(`top: ${this.top}`);
         // check if off sides
         this.rep.style.left = this.left + '%';
         this.rep.style.top = this.top + '%';
@@ -223,6 +224,7 @@ socket.on('next', (msg) => {
     //console.log(msg);
     let mid = player.sid;
     let eid = enemy.sid;
+    console.log(`accelY: ${msg.players[mid].accelY}`);
     player.accelX = msg.players[mid].accelX;
     player.accelY = msg.players[mid].accelY;
     enemy.accelX = msg.players[eid].accelX;
