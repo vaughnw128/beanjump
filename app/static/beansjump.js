@@ -55,7 +55,7 @@ class Player {
         this.rep = rep;
         this.left = left;
         this.top = top;
-        console.log(`left: ${this.left}\ttop: ${this.top}`)
+        //console.log(`left: ${this.left}\ttop: ${this.top}`)
 
         this.rep.style.top = this.top + '%';
 
@@ -183,7 +183,7 @@ function playWithFriend() {
 }
 
 socket.on('found game', (msg) => {
-    console.log(msg);
+    //console.log(msg);
     let p = document.createElement('img');
     let e = document.createElement('img');
 
@@ -224,7 +224,7 @@ socket.on('next', (msg) => {
     //console.log(msg);
     let mid = player.sid;
     let eid = enemy.sid;
-    console.log(`accelY: ${msg.players[mid].accelY}`);
+    //console.log(`accelY: ${msg.players[mid].accelY}`);
     player.accelX = msg.players[mid].accelX;
     player.accelY = msg.players[mid].accelY;
     enemy.accelX = msg.players[eid].accelX;
