@@ -1,3 +1,87 @@
+function constrain(val, min, max) { // used in moving player around
+	if (val > max) {
+		val = max;
+	}
+	if (val < min) {
+		val = min;
+	}
+	return val;
+}
+
+function getCharFromCode(code) {
+	if (code == 40) {
+		return 'DOWN_ARROW';
+	}
+	if (code == 39) {
+		return 'RIGHT_ARROW';
+	}
+	if (code == 38) {
+		return 'UP_ARROW';
+	}
+	if (code == 37) {
+		return 'LEFT_ARROW';
+	}
+
+	return String.fromCharCode(code);
+}
+
+function pause() {
+	if ((new Date().getTime() - lastPaused)/1000 > 1) {
+		unpaused = false;
+		lastPaused = new Date().getTime();
+
+		// need to make the pause text and background each time because otherwise it blocks the menu screen button and link
+		let p_background = document.createElement('div');
+		p_background.setAttribute('id','pause_background');
+		p_background.classList.add('pause_background');
+		p_background.style.width = $(window).width() + 'px';
+		p_background.style.height = $(window).height() + 'px';
+		p_background.style.left = '0px';
+		p_background.style.top = '0px';
+		document.body.appendChild(p_background);
+		p_background.style.zIndex = 400;
+
+		let p_text = document.createElement('div');
+		p_text.setAttribute('id', 'pause_text');
+		p_text.classList.add('pause_text');
+		p_text.innerHTML = 'Paused<br>Press ' + getCharFromCode(pause_key) + ' to continue';
+		document.body.appendChild(p_text);
+		p_text.style.left = $(window).width()/2 - p_text.clientWidth/2 + 'px';
+		p_text.style.top = $(window).height()/2 - p_text.clientHeight/2 + 'px';
+		p_text.style.zIndex = 401;
+	}
+}
+
+function unpause() {
+	if ((new Date().getTime() - lastPaused)/1000 > 1) {
+		document.body.removeChild(document.getElementById('pause_background'));
+		document.body.removeChild(document.getElementById('pause_text'));
+		let countdown = document.createElement('div');
+		countdown.classList.add('countdown');
+		countdown.innerHTML = '<b>3</b>';
+		document.body.appendChild(countdown);
+		countdown.style.zIndex = 400;
+		countdown.style.left = $(window).width()/2 - countdown.clientWidth/2 + 'px';
+		countdown.style.top = $(window).height()/2 - countdown.clientHeight/2 + 'px';
+
+		setTimeout(function() {
+			countdown.innerHTML = '<b>2</b>';
+			countdown.style.left = $(window).width()/2 - countdown.clientWidth/2 + 'px';
+			countdown.style.top = $(window).height()/2 - countdown.clientHeight/2 + 'px';
+		}, 1000);
+		setTimeout(function() {
+			countdown.innerHTML = '<b>1</b>';
+			countdown.style.left = $(window).width()/2 - countdown.clientWidth/2 + 'px';
+			countdown.style.top = $(window).height()/2 - countdown.clientHeight/2 + 'px';
+		}, 2000);
+		setTimeout(function() { 
+			document.body.removeChild(countdown);
+			unpaused = true;
+			lastPaused = new Date().getTime();
+		}, 3000);
+	}
+}
+
 class FloatyText {
 	constructor(txt, player) {
 		this.me = document.createElement('div');
@@ -359,6 +443,7 @@ class Vegetable {
 	}
 }
 
+// handle player movement basically
 class Player {
 	constructor(id) {
 		this.id = id;
@@ -414,93 +499,64 @@ class Player {
 	}
 }
 
-function constrain(val, min, max) { // used in moving player around
-	if (val > max) {
-		val = max;
-	}
-	if (val < min) {
-		val = min;
-	}
-	return val;
-}
-
-function getCharFromCode(code) {
-	if (code == 40) {
-		return 'DOWN_ARROW';
-	}
-	if (code == 39) {
-		return 'RIGHT_ARROW';
-	}
-	if (code == 38) {
-		return 'UP_ARROW';
-	}
-	if (code == 37) {
-		return 'LEFT_ARROW';
-	}
-
-	return String.fromCharCode(code);
-}
-
-function pause() {
-	if ((new Date().getTime() - lastPaused)/1000 > 1) {
-		unpaused = false;
-		lastPaused = new Date().getTime();
-
-		// need to make the pause text and background each time because otherwise it blocks the menu screen button and link
-		let p_background = document.createElement('div');
-		p_background.setAttribute('id','pause_background');
-		p_background.classList.add('pause_background');
-		p_background.style.width = $(window).width() + 'px';
-		p_background.style.height = $(window).height() + 'px';
-		p_background.style.left = '0px';
-		p_background.style.top = '0px';
-		document.body.appendChild(p_background);
-		p_background.style.zIndex = 400;
-
-		let p_text = document.createElement('div');
-		p_text.setAttribute('id', 'pause_text');
-		p_text.classList.add('pause_text');
-		p_text.innerHTML = 'Paused<br>Press ' + getCharFromCode(pause_key) + ' to continue';
-		document.body.appendChild(p_text);
-		p_text.style.left = $(window).width()/2 - p_text.clientWidth/2 + 'px';
-		p_text.style.top = $(window).height()/2 - p_text.clientHeight/2 + 'px';
-		p_text.style.zIndex = 401;
-	}
-}
-
-function unpause() {
-	if ((new Date().getTime() - lastPaused)/1000 > 1) {
-		document.body.removeChild(document.getElementById('pause_background'));
-		document.body.removeChild(document.getElementById('pause_text'));
-		let countdown = document.createElement('div');
-		countdown.classList.add('countdown');
-		countdown.innerHTML = '<b>3</b>';
-		document.body.appendChild(countdown);
-		countdown.style.zIndex = 400;
-		countdown.style.left = $(window).width()/2 - countdown.clientWidth/2 + 'px';
-		countdown.style.top = $(window).height()/2 - countdown.clientHeight/2 + 'px';
-
-		setTimeout(function() {
-			countdown.innerHTML = '<b>2</b>';
-			countdown.style.left = $(window).width()/2 - countdown.clientWidth/2 + 'px';
-			countdown.style.top = $(window).height()/2 - countdown.clientHeight/2 + 'px';
-		}, 1000);
-		setTimeout(function() {
-			countdown.innerHTML = '<b>1</b>';
-			countdown.style.left = $(window).width()/2 - countdown.clientWidth/2 + 'px';
-			countdown.style.top = $(window).height()/2 - countdown.clientHeight/2 + 'px';
-		}, 2000);
-		setTimeout(function() { 
-			document.body.removeChild(countdown);
-			unpaused = true;
-			lastPaused = new Date().getTime();
-		}, 3000);
-	}
-}
+let carrots_only = false;
 
 function changeCarrots() {
 	carrots_only = !carrots_only;
 	alert('carrots only has been ' + ((carrots_only) ? 'enabled' : 'disabled'));
+}
+
+// determine where to draw the ground
+let base_y = Math.floor($(window).height()*2 /3);
+let recent_score = 0;
+let best_score = 0;
+let cheats = false;
+
+let unpaused = true;
+let lastPaused = new Date().getTime();
+
+let recent = document.getElementById('recent');
+let best = document.getElementById('best');
+
+let papi_info = document.getElementById('papiinfo');
+
+let player = new Player('player');
+
+let score = document.createElement('div');
+score.classList.add('score');
+score.innerHTML = 'Score: 0';
+document.body.appendChild(score);
+score.style.display = 'none';
+
+let running = false;
+
+let floatyTexts = [];
+
+// set up background
+let sky = document.getElementById('sky');
+let ground = document.getElementById('ground');
+
+sky.style.width = $(window).width() + 'px';
+sky.style.height = $(window).height() + 'px';
+sky.style.top = '0px';
+sky.style.left = '0px';
+
+////console.log($(window).width());
+
+ground.style.width = $(window).width() + 'px';
+ground.style.height = $(window).height() - (base_y + player.rep.clientHeight) + 'px';
+ground.style.top = base_y + player.rep.clientHeight + 'px';
+ground.style.left = '0px';
+
+let jump_key = 38, left_key = 37, right_key = 39, pause_key = 40;
+let keys = {};
+
+player.rep.style.top = base_y + 'px';
+
+let rebinding = null;
+
+function rebind(key) {
+	rebinding = key;
 }
 
 window.onkeydown = function(e) {
@@ -557,75 +613,10 @@ function checkKeys() {
 	}
 }
 
-function rebind(key) {
-	rebinding = key;
-}
-
 function updateCookie(name, value) {
 	document.cookie = name + '=' + value + ';';
 }
-
-let carrots_only = false;
-
-// determine where to draw the ground
-let base_y = Math.floor($(window).height()*2 /3);
-let recent_score = 0;
-let bsdYYfhejeF = 0;
-let cheats = false;
-
-let unpaused = true;
-let lastPaused = new Date().getTime();
-
-let recent = document.getElementById('recent');
-let best = document.getElementById('best');
-
-let papi_info = document.getElementById('papiinfo');
-
-let player = new Player('player');
-
-let score = document.createElement('div');
-score.classList.add('score');
-score.innerHTML = 'Score: 0';
-document.body.appendChild(score);
-score.style.display = 'none';
-
-let running = false;
-
-let floatyTexts = [];
-
-// set up background
-let sky = document.getElementById('sky');
-let ground = document.getElementById('ground');
-
-sky.style.width = $(window).width() + 'px';
-sky.style.height = $(window).height() + 'px';
-sky.style.top = '0px';
-sky.style.left = '0px';
-
-let widden = false;
-function wideIt() {
-	let p = document.getElementById('player');
-	if (widden) {
-		p.style.width = '70px';
-	} else {
-		p.style.width = '70%';
-	}
-	widden = !widden;
-}
-
-////console.log($(window).width());
-
-ground.style.width = $(window).width() + 'px';
-ground.style.height = $(window).height() - (base_y + player.rep.clientHeight) + 'px';
-ground.style.top = base_y + player.rep.clientHeight + 'px';
-ground.style.left = '0px';
-
-let jump_key = 38, left_key = 37, right_key = 39, pause_key = 40;
-let keys = {};
-
-player.rep.style.top = base_y + 'px';
-
-let rebinding = null;
+var socket;
 
 // read cookies for high score and keybinds, if they exist
 window.onload = function() {
@@ -634,12 +625,8 @@ window.onload = function() {
 
 	for (let i = 0; i < c.length; i++) {
 		if (c[i].slice(0,10) == 'highscore=') {
-			try {
-				bsdYYfhejeF = parseInt((c[i].slice(10, c[0].length)));
-			} catch {
-				bsdYYfhejeF = 0;
-			}
-			document.getElementById('best').innerHTML = 'Best score: ' + bsdYYfhejeF;
+			best_score = (c[i].slice(10, c[0].length));
+			document.getElementById('best').innerHTML = 'Best score: ' + best_score;
 		}
 
 		if (c[i].slice(0,5) == 'keys=') {
@@ -655,6 +642,56 @@ window.onload = function() {
 
 	requestUpdatedScores();
 }
+
+socket = io.connect('http://' + document.domain + ':' + location.port + '/beanjumpdata');
+
+function submitScore() {
+	let username = prompt('enter a username to submit with ur score: (alphanumeric characters only, 12 character limit)');
+
+	while (!username.match(/^[a-z0-9]+$/i) || username.length > 12) {
+
+		if (!username.match(/^[a-z0-9]+$/i)) {
+			username = prompt('alphanumeric only please');
+			continue;
+		}
+
+		if (username.length > 12) {
+			username = prompt('less than 12 characters please');
+			continue;
+		}
+
+	}
+
+	socket.emit('new score', [username, best_score]);
+}
+
+function requestUpdatedScores() {
+	socket.emit('get scores', []);
+}
+
+socket.on('update', (msg) => {
+	let hsdiv = document.getElementById('highscores');
+	hsdiv.style.display = 'block';
+
+	let hs = document.getElementById('hslist');
+	hs.innerHTML = '';
+
+	for (let i = 0; i < msg.length; i++) {
+		let ns = document.createElement('li');
+		ns.innerHTML = msg[i][0] + ': ' + msg[i][1];
+		hs.appendChild(ns);
+	}
+	
+});
+
+function findRank() {
+	let username = prompt('enter the username to search for (capitals matter)');
+	socket.emit('find score', username);
+}
+
+socket.on('found score', (msg) => {
+	alert('user ' + msg.username + ' has a high score of ' + msg.highscore + ' and is ranked #' + msg.rank);
+});
 
 //runs the game at a specified fps
 //dont touch i dont know how it works
@@ -746,8 +783,8 @@ function runGame() {
 		let score = document.getElementsByClassName('score')[0];
 		score.innerHTML = 'Score: ' + player.score;
 		recent_score = player.score;
-		if (player.score > bsdYYfhejeF && ! cheated) {
-			bsdYYfhejeF = player.score;
+		if (player.score > best_score && ! cheated) {
+			best_score = player.score;
 		}
     }
 }
@@ -774,8 +811,8 @@ function reset() {
 	// bring back start button and score displays
 	document.getElementById('menu_stuff').style.display = 'block';
 	recent.innerHTML = 'Recent score: ' + recent_score;
-	best.innerHTML = 'Best score: ' + bsdYYfhejeF;
-	updateCookie('highscore', bsdYYfhejeF);
+	best.innerHTML = 'Best score: ' + best_score;
+	updateCookie('highscore', best_score);
 
 	// remove game stuff
 	document.getElementById('sky').style.display = 'none';
