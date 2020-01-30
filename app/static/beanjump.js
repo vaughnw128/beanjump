@@ -592,6 +592,17 @@ window.onkeyup = function(e) {
 	keys[key] = false;
 }
 
+let widden = false;
+function wideIt() {
+	let p = document.getElementById('player');
+	if (widden) {
+		p.style.width = '70px';
+	} else {
+		p.style.width = '70%';
+	}
+	widden = !widden;
+}
+
 function checkKeys() {
 	if (keys[jump_key]) {
 		if (parseInt(player.rep.style.top) == base_y) {
