@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Bean Tower Defense</title>
+    <link href="{{ url_for('static', filename='beantd/style.css') }}" rel="stylesheet" type="text/css" />
+	<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js'></script>
+    <link rel="icon" type="image" href="{{ url_for('static', filename='images/bean_icon.png') }}">
+    </head>
+  <body>
+    <img src="{{ url_for('static', filename='beantd/grass.png') }}" style="display:none; width: 50px; height: 50px;" id="grass">
+    <img src="{{ url_for('static', filename='beantd/path.png') }}" style="display:none; width: 50px; height: 50px;" id="path"> 
+    <img src="{{ url_for('static', filename='beantd/unclesam.png') }}" style="display:none; width: 40px; height: 40px;" id="unclesam">
+    <img src="{{ url_for('static', filename='beantd/redneck.png') }}" style="display:none; width: 40px; height: 40px;" id="redneck">
+    <script src="{{ url_for('static', filename='beantd/hotkeys.js') }}"></script>
+    <script src="{{ url_for('static', filename='beantd/levels.js') }}"></script>
+    <script src="{{ url_for('static', filename='beantd/classes.js') }}"></script>
+    <script src="{{ url_for('static', filename='beantd/screens.js') }}"></script>
+    <script src="{{ url_for('static', filename='beantd/script.js') }}"></script>
+  </body>
+</html>

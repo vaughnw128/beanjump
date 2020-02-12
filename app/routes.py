@@ -9,3 +9,7 @@ from app import app
 @app.route('/index')
 def index():
     return render_template('index.html')
+
+@app.route('/beantd')
+def beantd():
+    return render_template('beantd.html')
