@@ -12,6 +12,17 @@ $(document).mousemove(function(event) {
 	mouse_y = event.pageY - 8; // adjust for weird padding on top of canvas i couldn't remove
 });
 
+canvas.onmousedown = () => {
+	/* 
+		todo: 
+		add extra logic here to tell if the mouse was clicked over the grid
+		or over the area where u buy/upgrade towers
+	*/
+	if (placing) {
+		placing.place();
+	}
+}
+
 let fpsInterval, then, startTime, elapsed;
 function startGame(fps) {
 	fpsInterval = 1000 / fps;

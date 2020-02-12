@@ -95,7 +95,10 @@ class TowerPlace {
             return;
         }
 
-
+        if (this.src == 'gunbean') {
+            mouseOver.tower = new GunBean(mouseOver);
+            placing = null;
+        }
     }
 }
 
@@ -132,8 +135,12 @@ class Tower {
 }
 
 // basic tower type
-class GunBean {
+class GunBean extends Tower {
+    constructor(tile) {
+        super(tile, 5, 3, 'gunbean');
+    }
 
+    /* todo: upgrade system */
 }
 
 
