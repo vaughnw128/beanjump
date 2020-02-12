@@ -104,7 +104,7 @@ class TowerPlace {
 
 // the actual tower that stays on the tile and shoots and is upgradeable
 class Tower {
-    constructor(tile, damage, range, src, direction=0) {
+    constructor(tile, damage, range, src, cooldown, direction=0, targeting='first') {
         this.damage = damage;
         this.range = range;
         this.tile = tile;
@@ -114,15 +114,77 @@ class Tower {
         this.height = 40;
         this.xoff = this.width/2;
         this.yoff = this.height/2;
+        this.targeting = targeting;
+        this.initialCD = cooldown;
+        this.cooldown = this.initialCD;
+        this.line = null;
     }
 
     shoot() {
         // check all enemies to see who is in range and furthest along the path
+        let available = [];
+
+        for (let i = 0; i < enemies.length; i++) {
+            if (Math.abs(enemies[i].left - (this.tile.left + this.tile.width/2)) < this.range*50 &&
+            Math.abs(enemies[i].top - (this.tile.top + this.tile.height/2) < this.range*50)) {
+                if (this.targeting == 'first') {
+                    this.line = {
+                        sx: this.tile.left + this.tile.width/2,
+                        sy: this.tile.top + this.tile.height/2,
+                        ex: enemies[i].left,
+                        ey: enemies[i].top
+                    };
+
+                    this.direction = 90 + 180*Math.atan((this.line.ey-this.line.sy)/(this.line.ex-this.line.sx))/Math.PI;
+                    if (this.line.ex < this.line.sx) {
+                        this.direction += 180;
+                    }
+                    enemies[i].hp -= this.damage;
+                    break;
+                } else {
+                    available.push(enemies[i]);
+                }
+            }
+        }
+
+        if (available.length == 0) {
+            return;
+        }
+
+        // add options for strongest/weakest targeting too
+        
+
+        this.cooldown = this.initialCD;
+    }
+
+    drawLine() {
+        if (this.line) {
+            ctx.beginPath();
+            ctx.moveTo(this.line.sx, this.line.sy);
+            ctx.lineTo(this.line.ex, this.line.ey);
+            ctx.strokeStyle = '#FF0000';
+            ctx.stroke();
+        }
+    }
+
+    readyToShoot() {
+        if (this.cooldown <= this.initialCD/2) {
+            this.line = null;
+        }
+        if (this.cooldown > 0) {
+            this.cooldown --;
+            return false;
+        }
+        return true;
     }
 
     draw() {
         if (!ctx) {
             let ctx = canvas.getContext('2d'); 
+        }
+
+        if (this.readyToShoot()) {
+            this.shoot();
         }
 
         // supposedly this will draw the image rotated to face its direction
@@ -137,7 +199,7 @@ class Tower {
 // basic tower type
 class GunBean extends Tower {
     constructor(tile) {
-        super(tile, 5, 3, 'gunbean');
+        super(tile, 5, 3, 'gunbean', 60);
     }
 
     /* todo: upgrade system */
@@ -189,6 +251,10 @@ class Enemy {
         this.top -= Math.sin(this.direction * Math.PI/180);
 
         if (this.offScreen()) {
+            this.finish();
+        }
+
+        if (this.hp <= 0) {
             this.finish();
         }
         

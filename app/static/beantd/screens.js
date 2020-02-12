@@ -34,12 +34,15 @@ function loadLevel(which) {
 function drawGame() {
     // draw grid/path (650 x 450 area)
     let foundMouse = false;
+    let towers = [];
 
+    // draw each base tile and highlight the one the mouse is on
 	for (let i = 0; i < level.length; i++) {
         for (let j = 0; j < level[0].length; j++) {
             level[i][j].draw();
             if (level[i][j].tower) {
                 level[i][j].tower.draw();
+                towers.push(level[i][j].tower);
             }
             
             if (!foundMouse && level[i][j].hasCoords(mouse_x, mouse_y)) {
@@ -48,6 +51,11 @@ function drawGame() {
                 mouseOver = level[i][j];
             }
         }
+    }
+
+    // draws path from the tower to the target enemy
+    for (let i = 0; i < towers.length; i++) {
+        towers[i].drawLine();
     }
 
     if (!foundMouse) {
