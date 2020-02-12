@@ -29,7 +29,6 @@ function runGame() {
 		then = now - (elapsed % fpsInterval);
         
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
-		checkKeys();
 		drawGame();
 	}
 }

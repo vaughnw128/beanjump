@@ -52,12 +52,44 @@ class HighGround extends Tile {
     }
 }
 
+// after you select the tower icon/press T
+// it spawns one of these classes
+// this just keeps the tower icon under your mouse + shows radius +
+// checks whether the tile u clicked on is a valid placing spot +
+// if so it places an actual tower there
+class TowerPlace {
+    constructor(range, src) {
+        this.range = range;
+        this.src = src;
+        this.width = 40;
+        this.height = 40;
+        this.xoff = this.width/2;
+        this.yoff = this.height/2;
+    }
 
+    draw() {
+        if (!ctx) {
+            let ctx = canvas.getContext('2d');
+        }
+
+        // draw range of tower
+        ctx.beginPath();
+        ctx.arc(mouse_x, mouse_y, this.range*50, 0, 2 * Math.PI, false);
+        ctx.fillStyle = 'rgb(10,10,10,0.25)';
+        ctx.fill();
+
+        // draw actual tower
+        ctx.drawImage(document.getElementById(this.src), mouse_x - this.xoff, mouse_y - this.yoff);
+    }
+}
+
+// the actual tower that stays on the tile and shoots and is upgradeable
 class Tower {
-    constructor(tile) {
-        this.damage = 0;
-        this.range = 0;
+    constructor(tile, damage, range, src) {
+        this.damage = damage;
+        this.range = range;
         this.tile = tile;
+        this.src = src;
     }
 
     shoot() {

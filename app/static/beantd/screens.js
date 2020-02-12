@@ -2,6 +2,8 @@ var selected = null;
 var level = [];
 var enemies = [];
 var startTile;
+var mouseOver = null;
+var placing = null;
 
 const tile_width = 50, tile_height = 50; // pixel dimensions
 const game_width = 13, game_height = 9; // 13x9 tile area for actual game
@@ -39,8 +41,13 @@ function drawGame() {
             if (!foundMouse && level[i][j].hasCoords(mouse_x, mouse_y)) {
                 foundMouse = true;
                 level[i][j].highlight();
+                mouseOver = level[i][j];
             }
         }
+    }
+
+    if (!foundMouse) {
+        mouseOver = null;
     }
     
     // draw tower menu
@@ -54,6 +61,14 @@ function drawGame() {
     // draw enemies
     for (let i = 0; i < enemies.length; i++) {
         enemies[i].update();
+    }
+
+    // draw existing towers
+    /* todo: this */
+
+    // draw potential new towers
+    if (placing) {
+        placing.draw();
     }
 }
 
