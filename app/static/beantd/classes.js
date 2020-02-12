@@ -89,20 +89,51 @@ class TowerPlace {
         }
         return false;
     }
+
+    place() {
+        if (!this.isValid()) {
+            return;
+        }
+
+
+    }
 }
 
 // the actual tower that stays on the tile and shoots and is upgradeable
 class Tower {
-    constructor(tile, damage, range, src) {
+    constructor(tile, damage, range, src, direction=0) {
         this.damage = damage;
         this.range = range;
         this.tile = tile;
         this.src = src;
+        this.direction = direction;
+        this.width = 40;
+        this.height = 40;
+        this.xoff = this.width/2;
+        this.yoff = this.height/2;
     }
 
     shoot() {
         // check all enemies to see who is in range and furthest along the path
     }
+
+    draw() {
+        if (!ctx) {
+            let ctx = canvas.getContext('2d'); 
+        }
+
+        // supposedly this will draw the image rotated to face its direction
+        ctx.save();
+        ctx.translate(this.tile.left + this.tile.width/2, this.tile.top + this.tile.height/2);
+        ctx.rotate(this.direction*Math.PI/180);
+        ctx.drawImage(document.getElementById(this.src),-1*this.xoff, -1*this.yoff);
+        ctx.restore();
+    }
+}
+
+// basic tower type
+class GunBean {
+
 }
 
 

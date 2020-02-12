@@ -38,6 +38,10 @@ function drawGame() {
 	for (let i = 0; i < level.length; i++) {
         for (let j = 0; j < level[0].length; j++) {
             level[i][j].draw();
+            if (level[i][j].tower) {
+                level[i][j].tower.draw();
+            }
+            
             if (!foundMouse && level[i][j].hasCoords(mouse_x, mouse_y)) {
                 foundMouse = true;
                 level[i][j].highlight();
@@ -73,5 +77,5 @@ function drawGame() {
 }
 
 function drawMenu() {
-
+    /* todo: draw menu */
 }
