@@ -225,6 +225,8 @@ class Enemy {
         this.top = top;
         this.direction = direction; // angle probably
         this.src = src;
+        this.randShift = parseInt(Math.random() * 11 - 5);
+        this.top += this.randShift;
     }
 
     update() {
@@ -235,11 +237,11 @@ class Enemy {
                 }
                 if (level[i][j].hasCoords(this.left, this.top)) {
                     if (Math.abs(this.left - (level[i][j].left + level[i][j].width/2)) < this.speed &&
-                    Math.abs(this.top - (level[i][j].top + level[i][j].height/2)) < this.speed &&
+                    Math.abs(this.top - (level[i][j].top + level[i][j].height/2)) < this.speed + Math.abs(this.randShift) &&
                     this.direction != level[i][j].direction) {
                         // close enough to the center
                         this.left = level[i][j].left + level[i][j].width/2;
-                        this.top = level[i][j].top + level[i][j].height/2;
+                        this.top = level[i][j].top + level[i][j].height/2 + this.randShift;
                         this.direction = level[i][j].direction;
                         return;
                     }
