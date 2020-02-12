@@ -45,8 +45,8 @@ class Path extends Tile {
 class HighGround extends Tile {
     constructor(left, top) {
         super(left, top);
-        this.src = 'static/beantd/grass.png';
-        this.type = 'grass';
+        this.src = 'static/beantd/highground.png';
+        this.type = 'highground';
         this.buildable = true;
         this.tower = null;
     }
@@ -80,6 +80,14 @@ class TowerPlace {
 
         // draw actual tower
         ctx.drawImage(document.getElementById(this.src), mouse_x - this.xoff, mouse_y - this.yoff);
+    }
+
+    // checks on click if the mouseOver tile is valid
+    isValid() {
+        if (mouseOver.type == 'highground' && mouseOver.buildable && mouseOver.tower == null) {
+            return true;
+        }
+        return false;
     }
 }
 
