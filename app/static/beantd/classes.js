@@ -127,28 +127,27 @@ class Tower {
         for (let i = 0; i < enemies.length; i++) {
             if (Math.abs(enemies[i].left - (this.tile.left + this.tile.width/2)) < this.range*50 &&
             Math.abs(enemies[i].top - (this.tile.top + this.tile.height/2) < this.range*50)) {
-                if (this.targeting == 'first') {
-                    this.line = {
-                        sx: this.tile.left + this.tile.width/2,
-                        sy: this.tile.top + this.tile.height/2,
-                        ex: enemies[i].left,
-                        ey: enemies[i].top
-                    };
-
-                    this.direction = 90 + 180*Math.atan((this.line.ey-this.line.sy)/(this.line.ex-this.line.sx))/Math.PI;
-                    if (this.line.ex < this.line.sx) {
-                        this.direction += 180;
-                    }
-                    enemies[i].hp -= this.damage;
-                    break;
-                } else {
                     available.push(enemies[i]);
-                }
             }
         }
 
         if (available.length == 0) {
             return;
+        }
+
+        if (this.targeting == 'first') {
+            this.line = {
+                sx: this.tile.left + this.tile.width/2,
+                sy: this.tile.top + this.tile.height/2,
+                ex: available[0].left,
+                ey: available[0].top
+            };
+
+            this.direction = 90 + 180*Math.atan((this.line.ey-this.line.sy)/(this.line.ex-this.line.sx))/Math.PI;
+            if (this.line.ex < this.line.sx) {
+                this.direction += 180;
+            }
+            available[0].hp -= this.damage;
         }
 
         // add options for strongest/weakest targeting too
@@ -199,7 +198,7 @@ class Tower {
 // basic tower type
 class GunBean extends Tower {
     constructor(tile) {
-        super(tile, 5, 3, 'gunbean', 60);
+        super(tile, 5, 3, 'gunbean', 30);
     }
 
     /* todo: upgrade system */
