@@ -74,7 +74,7 @@ class TowerPlace {
 
         // draw range of tower
         ctx.beginPath();
-        ctx.arc(mouse_x, mouse_y, this.range*50, 0, 2 * Math.PI, false);
+        ctx.arc(mouse_x, mouse_y, this.range*50 + 25, 0, 2 * Math.PI, false);
         ctx.fillStyle = 'rgb(10,10,10,0.25)';
         ctx.fill();
 
