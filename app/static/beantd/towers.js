@@ -55,7 +55,7 @@ class HighGround extends Tile {
 // after you select the tower icon/press T
 // it spawns one of these classes
 // this just keeps the tower icon under your mouse + shows radius +
-// checks whether the tile u clicked on is a valid placing spot +
+// checks whether the tile u clicked on is a valid game.placing spot +
 // if so it places an actual tower there
 class TowerPlace {
     constructor(range, src) {
@@ -82,9 +82,9 @@ class TowerPlace {
         ctx.drawImage(document.getElementById(this.src), mouse_x - this.xoff, mouse_y - this.yoff);
     }
 
-    // checks on click if the mouseOver tile is valid
+    // checks on click if the game.mouseOver tile is valid
     isValid() {
-        if (mouseOver.type == 'highground' && mouseOver.buildable && mouseOver.tower == null) {
+        if (game.mouseOver.type == 'highground' && game.mouseOver.buildable && game.mouseOver.tower == null) {
             return true;
         }
         return false;
@@ -92,8 +92,8 @@ class TowerPlace {
 
     place() {
         if (this.src == 'gunbean') {
-            mouseOver.tower = new GunBean(mouseOver);
-            placing = null;
+            game.mouseOver.tower = new GunBean(game.mouseOver);
+            game.placing = null;
         }
     }
 }
@@ -117,16 +117,16 @@ class Tower {
     }
 
     shoot() {
-        // check all enemies to see who is in range and furthest along the path
+        // check all game.enemies to see who is in range and furthest along the path
         let available = [];
 
-        for (let i = 0; i < enemies.length; i++) {
-            let dx = Math.abs(this.tile.left + this.tile.width/2 - enemies[i].left);
-            let dy = Math.abs(this.tile.top + this.tile.height/2 - enemies[i].top);
+        for (let i = 0; i < game.enemies.length; i++) {
+            let dx = Math.abs(this.tile.left + this.tile.width/2 - game.enemies[i].left);
+            let dy = Math.abs(this.tile.top + this.tile.height/2 - game.enemies[i].top);
             let dist = Math.sqrt((dx*dx) + (dy*dy));
 
             if (dist < this.range*50 + 25) {
-                available.push(enemies[i]);
+                available.push(game.enemies[i]);
             }
         }
 

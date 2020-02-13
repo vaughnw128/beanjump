@@ -22,19 +22,19 @@ class Enemy {
     }
 
     update() {
-        for (let i = 0; i < level.length; i++) {
-            for (let j = 0; j < level[0].length; j++) {
-                if (!(level[i][j] instanceof Path)) {
+        for (let i = 0; i < game.level.length; i++) {
+            for (let j = 0; j < game.level[0].length; j++) {
+                if (!(game.level[i][j] instanceof Path)) {
                     continue;
                 }
-                if (level[i][j].hasCoords(this.left, this.top)) {
-                    if (Math.abs(this.left - (level[i][j].left + level[i][j].width/2)) < this.speed &&
-                    Math.abs(this.top - (level[i][j].top + level[i][j].height/2)) < this.speed + Math.abs(this.randShift) &&
-                    this.direction != level[i][j].direction) {
+                if (game.level[i][j].hasCoords(this.left, this.top)) {
+                    if (Math.abs(this.left - (game.level[i][j].left + game.level[i][j].width/2)) < this.speed &&
+                    Math.abs(this.top - (game.level[i][j].top + game.level[i][j].height/2)) < this.speed + Math.abs(this.randShift) &&
+                    this.direction != game.level[i][j].direction) {
                         // close enough to the center
-                        this.left = level[i][j].left + level[i][j].width/2;
-                        this.top = level[i][j].top + level[i][j].height/2 + this.randShift;
-                        this.direction = level[i][j].direction;
+                        this.left = game.level[i][j].left + game.level[i][j].width/2;
+                        this.top = game.level[i][j].top + game.level[i][j].height/2 + this.randShift;
+                        this.direction = game.level[i][j].direction;
                         return;
                     }
                 }
@@ -71,9 +71,9 @@ class Enemy {
     kill() {
         if (this.hp <= 0) {
             // increase cash
-            for (let i = 0; i < enemies.length; i++) {
-                if (enemies[i].toString() == this.toString()) {
-                    enemies.splice(i,1);
+            for (let i = 0; i < game.enemies.length; i++) {
+                if (game.enemies[i].toString() == this.toString()) {
+                    game.enemies.splice(i,1);
                     return;
                 }
             }
@@ -83,9 +83,9 @@ class Enemy {
     // made it to the end/"finish line"
     finish() {
         // find self & remove
-        for (let i = 0; i < enemies.length; i++) {
-            if (enemies[i].toString() == this.toString()) {
-                enemies.splice(i,1);
+        for (let i = 0; i < game.enemies.length; i++) {
+            if (game.enemies[i].toString() == this.toString()) {
+                game.enemies.splice(i,1);
                 return;
             }
         }
@@ -98,16 +98,16 @@ class Enemy {
 
 class UncleSam extends Enemy {
     constructor() {
-        let left = startTile.left + startTile.width/2;
-        let top = startTile.top + startTile.height/2;
-        super(100, 2, left, top, startTile.direction, 'unclesam');
+        let left = game.startTile.left + game.startTile.width/2;
+        let top = game.startTile.top + game.startTile.height/2;
+        super(100, 2, left, top, game.startTile.direction, 'unclesam');
     }
 }
 
 class Redneck extends Enemy {
     constructor() {
-        let left = startTile.left + startTile.width/2;
-        let top = startTile.top + startTile.height/2;
-        super(20, 2, left, top, startTile.direction, 'redneck');
+        let left = game.startTile.left + game.startTile.width/2;
+        let top = game.startTile.top + game.startTile.height/2;
+        super(20, 2, left, top, game.startTile.direction, 'redneck');
     }
 }

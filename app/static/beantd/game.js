@@ -2,7 +2,6 @@ class Game {
     constructor(level) {
         this.loadLevel(level);
         this.selected = null;
-        this.level = [];
         this.enemies = [];
         this.mouseOver = null;
         this.placing = null;
