@@ -18,9 +18,24 @@ canvas.onmousedown = () => {
 		add extra logic here to tell if the mouse was clicked over the grid
 		or over the area where u buy/upgrade towers
 	*/
-	if (placing) {
-		placing.place();
+
+	for (let i = 0; i < level.length; i++) {
+		for (let j = 0; j < level[0].length; j++) {
+			if (level[i][j].hasCoords(mouse_x, mouse_y)) {
+				if (placing && placing.isValid()) {
+					placing.place();
+					return;
+				}
+
+				if (level[i][j].type == 'highground' && level[i][j].tower) {
+					selected = level[i][j];
+					return;
+				}
+			}
+		}
 	}
+
+	selected = null;
 }
 
 let fpsInterval, then, startTime, elapsed;

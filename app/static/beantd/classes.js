@@ -91,10 +91,6 @@ class TowerPlace {
     }
 
     place() {
-        if (!this.isValid()) {
-            return;
-        }
-
         if (this.src == 'gunbean') {
             mouseOver.tower = new GunBean(mouseOver);
             placing = null;
