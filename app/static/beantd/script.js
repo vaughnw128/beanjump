@@ -3,9 +3,9 @@ canvas.width = 850;
 canvas.height = 600;
 document.body.appendChild(canvas);
 const ctx = canvas.getContext('2d');
-loadLevel(test);
 
 var mouse_x = 0, mouse_y = 0;
+var game = null;
 
 $(document).mousemove(function(event) {
 	mouse_x = event.pageX - ($(window).width()/2 - canvas.width/2);
@@ -19,23 +19,23 @@ canvas.onmousedown = () => {
 		or over the area where u buy/upgrade towers
 	*/
 
-	for (let i = 0; i < level.length; i++) {
-		for (let j = 0; j < level[0].length; j++) {
-			if (level[i][j].hasCoords(mouse_x, mouse_y)) {
-				if (placing && placing.isValid()) {
-					placing.place();
+	for (let i = 0; i < game.level.length; i++) {
+		for (let j = 0; j < game.level[0].length; j++) {
+			if (game.level[i][j].hasCoords(mouse_x, mouse_y)) {
+				if (game.placing && game.placing.isValid()) {
+					game.placing.place();
 					return;
 				}
 
-				if (level[i][j].type == 'highground' && level[i][j].tower) {
-					selected = level[i][j];
+				if (game.level[i][j].type == 'highground' && game.level[i][j].tower) {
+					game.selected = game.level[i][j];
 					return;
 				}
 			}
 		}
 	}
 
-	selected = null;
+	game.selected = null;
 }
 
 let fpsInterval, then, startTime, elapsed;
@@ -43,6 +43,7 @@ function startGame(fps) {
 	fpsInterval = 1000 / fps;
 	then = Date.now();
 	startTime = then;
+	game = new Game(test);
 	runGame();
 }
 
