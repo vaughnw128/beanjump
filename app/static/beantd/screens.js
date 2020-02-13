@@ -41,7 +41,6 @@ function drawGame() {
         for (let j = 0; j < level[0].length; j++) {
             level[i][j].draw();
             if (level[i][j].tower) {
-                level[i][j].tower.draw();
                 towers.push(level[i][j].tower);
             }
             
@@ -51,6 +50,10 @@ function drawGame() {
                 mouseOver = level[i][j];
             }
         }
+    }
+
+    for (let i = 0; i < towers.length; i++) {
+        towers[i].draw();
     }
 
     // draws path from the tower to the target enemy

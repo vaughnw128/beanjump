@@ -121,9 +121,12 @@ class Tower {
         let available = [];
 
         for (let i = 0; i < enemies.length; i++) {
-            if (Math.abs(enemies[i].left - (this.tile.left + this.tile.width/2)) < this.range*50 &&
-            Math.abs(enemies[i].top - (this.tile.top + this.tile.height/2) < this.range*50)) {
-                    available.push(enemies[i]);
+            let dx = Math.abs(this.tile.left + this.tile.width/2 - enemies[i].left);
+            let dy = Math.abs(this.tile.top + this.tile.height/2 - enemies[i].top);
+            let dist = Math.sqrt((dx*dx) + (dy*dy));
+
+            if (dist < this.range*50 + 25) {
+                available.push(enemies[i]);
             }
         }
 
@@ -180,6 +183,14 @@ class Tower {
 
         if (this.readyToShoot()) {
             this.shoot();
+        }
+
+        if (selected && selected.left == this.tile.left && selected.top == this.tile.top) {
+            // draw range of tower
+            ctx.beginPath();
+            ctx.arc(this.tile.left + this.tile.width/2, this.tile.top + this.tile.height/2, this.range*50 + 25, 0, 2 * Math.PI, false);
+            ctx.fillStyle = 'rgb(10,10,10,0.25)';
+            ctx.fill();
         }
 
         // supposedly this will draw the image rotated to face its direction
