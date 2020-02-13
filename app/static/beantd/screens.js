@@ -56,6 +56,11 @@ function drawGame() {
         towers[i].draw();
     }
 
+    if (selected) {
+        selected.tower.drawRange();
+        selected.tower.draw();
+    }
+
     // draws path from the tower to the target enemy
     for (let i = 0; i < towers.length; i++) {
         towers[i].drawLine();

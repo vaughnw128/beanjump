@@ -176,6 +176,17 @@ class Tower {
         return true;
     }
 
+    drawRange() {
+        if (!ctx) {
+            let ctx = canvas.getContext('2d');
+        }
+
+        ctx.beginPath();
+        ctx.arc(this.tile.left + this.tile.width/2, this.tile.top + this.tile.height/2, this.range*50 + 25, 0, 2 * Math.PI, false);
+        ctx.fillStyle = 'rgb(10,10,10,0.25)';
+        ctx.fill();
+    }
+
     draw() {
         if (!ctx) {
             let ctx = canvas.getContext('2d'); 
@@ -183,14 +194,6 @@ class Tower {
 
         if (this.readyToShoot()) {
             this.shoot();
-        }
-
-        if (selected && selected.left == this.tile.left && selected.top == this.tile.top) {
-            // draw range of tower
-            ctx.beginPath();
-            ctx.arc(this.tile.left + this.tile.width/2, this.tile.top + this.tile.height/2, this.range*50 + 25, 0, 2 * Math.PI, false);
-            ctx.fillStyle = 'rgb(10,10,10,0.25)';
-            ctx.fill();
         }
 
         // supposedly this will draw the image rotated to face its direction
