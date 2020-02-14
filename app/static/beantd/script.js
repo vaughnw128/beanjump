@@ -19,6 +19,12 @@ canvas.onmousedown = () => {
 		or over the area where u buy/upgrade towers
 	*/
 
+	for (let i = 0; i < game.towerIcons.length; i++) {
+		if (game.towerIcons[i].hasCoords(mouse_x, mouse_y)) {
+			game.towerIcons[i].buyTower();
+		}
+	}
+
 	for (let i = 0; i < game.level.length; i++) {
 		for (let j = 0; j < game.level[0].length; j++) {
 			if (game.level[i][j].hasCoords(mouse_x, mouse_y)) {

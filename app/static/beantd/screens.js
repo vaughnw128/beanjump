@@ -45,6 +45,9 @@ function drawGame() {
     ctx.fillStyle = 'rgb(204, 153, 0)';
     ctx.fillRect(canvas.width-200, 0, canvas.width, canvas.height-150);
 
+    for (let i = 0; i < game.towerIcons.length; i++) {
+        game.towerIcons[i].draw();
+    }
 
 
     // draw bottom menu/upgrade display

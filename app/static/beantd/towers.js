@@ -53,14 +53,24 @@ class HighGround extends Tile {
 }
 
 class TowerIcon {
-    constructor(left, top, src) {
-        this.left = left;
+    constructor(top, src) {
+        this.left = canvas.width - 175; // change later if i want to do 2 columns
         this.top = top;
         this.src = src;
+        this.width = 150;
+        this.height = 50;
+    }
+
+    hasCoords(x, y) {
+        if (x >= this.left && x <= this.left + this.width &&
+            y >= this.top && y <= this.top + this.height) {
+            return true;
+        }
+        return false;
     }
 
     draw() {
-
+        ctx.drawImage(document.getElementById(this.src), this.left, this.top);
     }
 
     buyTower() {
@@ -69,7 +79,13 @@ class TowerIcon {
 }
 
 class GunBeanIcon extends TowerIcon {
+    constructor() {
+        super(25, 'gunbeanicon');
+    }
 
+    buyTower() {
+        game.placing = new TowerPlace(3, 'gunbean');
+    }
 }
 
 // after you select the tower icon/press T

@@ -14,7 +14,7 @@ class Enemy {
         this.xoff = this.width/2;
         this.yoff = this.height/2;
         this.hp = hp;
-        this.value = hp;
+        this.value = hp/2;
         this.speed = speed;
         this.left = left;
         this.top = top;
@@ -74,7 +74,6 @@ class Enemy {
     // killed by tower
     kill() {
         if (this.hp <= 0) {
-            // increase cash
             game.cash += this.value;
             for (let i = 0; i < game.enemies.length; i++) {
                 if (game.enemies[i].toString() == this.toString()) {
