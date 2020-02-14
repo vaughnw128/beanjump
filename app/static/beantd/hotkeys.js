@@ -8,11 +8,14 @@ window.onkeyup = function(e) {
 	if (key == 82) {
 		game.enemies.push(new Redneck());
 	}
-	if (key == 84) {
+	if (key == 71) {
 		if (game.placing) {
 			game.placing = null;
 		} else {
-			game.placing = new TowerPlace(3, 'gunbean');
+			if (new GunBean(null).cost > game.cash) {
+				return;
+			}
+			game.placing = new TowerPlace(3, 'gunbean', new GunBean(null).cost);
 		}
 	}
 }

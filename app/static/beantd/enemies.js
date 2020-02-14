@@ -14,7 +14,7 @@ class Enemy {
         this.xoff = this.width/2;
         this.yoff = this.height/2;
         this.hp = hp;
-        this.value = hp/2;
+        this.value = hp/20;
         this.speed = speed;
         this.left = left;
         this.top = top;
