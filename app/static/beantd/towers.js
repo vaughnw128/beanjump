@@ -84,7 +84,14 @@ class GunBeanIcon extends TowerIcon {
     }
 
     buyTower() {
-        game.placing = new TowerPlace(3, 'gunbean');
+        if (game.placing) {
+            game.placing = null;
+            return;
+        }
+        if (new GunBean(null).cost > game.cash) {
+            return;
+        }
+        game.placing = new TowerPlace(3, 'gunbean', new GunBean(null).cost);
     }
 }
 
@@ -94,8 +101,9 @@ class GunBeanIcon extends TowerIcon {
 // checks whether the tile u clicked on is a valid game.placing spot +
 // if so it places an actual tower there
 class TowerPlace {
-    constructor(range, src) {
+    constructor(range, src, cost) {
         this.range = range;
+        this.cost = cost;
         this.src = src;
         this.width = 40;
         this.height = 40;
@@ -129,14 +137,15 @@ class TowerPlace {
     place() {
         if (this.src == 'gunbean') {
             game.mouseOver.tower = new GunBean(game.mouseOver);
-            game.placing = null;
         }
+        game.placing = null;
+        game.cash -= this.cost;
     }
 }
 
 // the actual tower that stays on the tile and shoots and is upgradeable
 class Tower {
-    constructor(tile, damage, range, src, cooldown, direction=0, targeting='first') {
+    constructor(tile, damage, range, src, cooldown, cost, direction=0, targeting='first') {
         this.damage = damage;
         this.range = range;
         this.tile = tile;
@@ -149,6 +158,7 @@ class Tower {
         this.targeting = targeting;
         this.initialCD = cooldown;
         this.cooldown = this.initialCD;
+        this.cost = cost;
         this.line = null;
     }
 
@@ -253,7 +263,7 @@ class Tower {
 // basic tower type
 class GunBean extends Tower {
     constructor(tile) {
-        super(tile, 5, 3, 'gunbean', 30);
+        super(tile, 5, 3, 'gunbean', 30, 20);
     }
 
     /* todo: upgrade system */
