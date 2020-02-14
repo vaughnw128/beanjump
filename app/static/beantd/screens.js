@@ -54,7 +54,8 @@ function drawGame() {
     // draw base hp/gold
     ctx.font = '20px Arial';
     ctx.fillStyle = 'black';
-    ctx.fillText('base hp: ' + game.hp, 10, canvas.height - 120);
+    ctx.fillText(`base hp: ${game.hp}`, 10, canvas.height - 120);
+    ctx.fillText(`cash: $${game.cash}`, 10, canvas.height - 90)
 
     // draw enemies
     for (let i = 0; i < game.enemies.length; i++) {
