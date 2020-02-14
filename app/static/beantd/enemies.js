@@ -53,9 +53,7 @@ class Enemy {
             this.finish();
         }
 
-        if (this.hp <= 0) {
-            this.finish();
-        }
+        this.kill();
         
         if (!ctx) {
             let ctx = canvas.getContext('2d');
