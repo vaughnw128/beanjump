@@ -5,6 +5,13 @@ class Game {
         this.enemies = [];
         this.mouseOver = null;
         this.placing = null;
+
+        this.hp = 20;
+        this.cash = 100;
+        
+        // for tower menu
+        this.towerIcons = [];
+        this.towerIcons.push(new GunBeanIcon());
     }
 
     loadLevel(which) {

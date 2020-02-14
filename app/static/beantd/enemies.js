@@ -6,7 +6,9 @@
 */
 
 class Enemy {
-    constructor(hp, speed, left, top, direction, src) {
+    constructor(hp, speed, left, top, direction, src, damage) {
+        this.created = new Date().getTime();
+        this.dist = 0;
         this.width = 40;
         this.height = 40;
         this.xoff = this.width/2;
@@ -17,11 +19,14 @@ class Enemy {
         this.top = top;
         this.direction = direction; // angle probably
         this.src = src;
+        this.damage = damage;
         this.randShift = parseInt(Math.random() * 11 - 5);
         this.top += this.randShift;
     }
 
     update() {
+        let now = new Date().getTime();
+        this.dist = (now - this.created) * this.speed;
         for (let i = 0; i < game.level.length; i++) {
             for (let j = 0; j < game.level[0].length; j++) {
                 if (!(game.level[i][j] instanceof Path)) {
@@ -41,8 +46,8 @@ class Enemy {
             }
         }
         
-        this.left += Math.cos(this.direction * Math.PI/180);
-        this.top -= Math.sin(this.direction * Math.PI/180);
+        this.left += this.speed*Math.cos(this.direction * Math.PI/180);
+        this.top -= this.speed*Math.sin(this.direction * Math.PI/180);
 
         if (this.offScreen()) {
             this.finish();
@@ -86,6 +91,7 @@ class Enemy {
         for (let i = 0; i < game.enemies.length; i++) {
             if (game.enemies[i].toString() == this.toString()) {
                 game.enemies.splice(i,1);
+                game.hp -= this.damage;
                 return;
             }
         }
@@ -100,7 +106,7 @@ class UncleSam extends Enemy {
     constructor() {
         let left = game.startTile.left + game.startTile.width/2;
         let top = game.startTile.top + game.startTile.height/2;
-        super(100, 2, left, top, game.startTile.direction, 'unclesam');
+        super(100, 1, left, top, game.startTile.direction, 'unclesam', 2);
     }
 }
 
@@ -108,6 +114,6 @@ class Redneck extends Enemy {
     constructor() {
         let left = game.startTile.left + game.startTile.width/2;
         let top = game.startTile.top + game.startTile.height/2;
-        super(20, 2, left, top, game.startTile.direction, 'redneck');
+        super(20, 2, left, top, game.startTile.direction, 'redneck', 1);
     }
 }

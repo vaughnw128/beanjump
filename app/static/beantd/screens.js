@@ -41,13 +41,20 @@ function drawGame() {
         game.mouseOver = null;
     }
     
-    // draw tower menu
+    // draw tower menu background
     ctx.fillStyle = 'rgb(204, 153, 0)';
     ctx.fillRect(canvas.width-200, 0, canvas.width, canvas.height-150);
+
+
 
     // draw bottom menu/upgrade display
     ctx.fillStyle = 'rgb(204, 200, 0)';
     ctx.fillRect(0, canvas.height - 150, canvas.width, canvas.height);
+
+    // draw base hp/gold
+    ctx.font = '20px Arial';
+    ctx.fillStyle = 'black';
+    ctx.fillText('base hp: ' + game.hp, 10, canvas.height - 120);
 
     // draw enemies
     for (let i = 0; i < game.enemies.length; i++) {

@@ -52,6 +52,26 @@ class HighGround extends Tile {
     }
 }
 
+class TowerIcon {
+    constructor(left, top, src) {
+        this.left = left;
+        this.top = top;
+        this.src = src;
+    }
+
+    draw() {
+
+    }
+
+    buyTower() {
+        game.placing = new TowerPlace(0,'');
+    }
+}
+
+class GunBeanIcon extends TowerIcon {
+
+}
+
 // after you select the tower icon/press T
 // it spawns one of these classes
 // this just keeps the tower icon under your mouse + shows radius +
@@ -135,18 +155,27 @@ class Tower {
         }
 
         if (this.targeting == 'first') {
+            // find furthest along path
+            let max_dist = available[0].dist;
+            let index = 0;
+            for (let i = 1; i < available.length; i++) {
+                if (available[i].dist > max_dist) {
+                    max_dist = available[i].dist;
+                    index = i;
+                }
+            }
             this.line = {
                 sx: this.tile.left + this.tile.width/2,
                 sy: this.tile.top + this.tile.height/2,
-                ex: available[0].left,
-                ey: available[0].top
+                ex: available[index].left,
+                ey: available[index].top
             };
 
             this.direction = 90 + 180*Math.atan((this.line.ey-this.line.sy)/(this.line.ex-this.line.sx))/Math.PI;
             if (this.line.ex < this.line.sx) {
                 this.direction += 180;
             }
-            available[0].hp -= this.damage;
+            available[index].hp -= this.damage;
         }
 
         // add options for strongest/weakest targeting too
