@@ -63,6 +63,10 @@ function drawGame() {
     // draw enemies
     for (let i = 0; i < game.enemies.length; i++) {
         game.enemies[i].update();
+        game.end();
+        if (!game) {
+            return;
+        }
     }
 
     // draw existing towers
@@ -76,4 +80,5 @@ function drawGame() {
 
 function drawMenu() {
     /* todo: draw menu */
+    ctx.drawImage(document.getElementById('btdmenu'), 0, 0);
 }

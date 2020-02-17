@@ -36,4 +36,52 @@ class Game {
         }
         this.startTile = this.level[which[1].start_y][which[1].start_x];
     }
+
+    end() {
+        if (this.hp <= 0) {
+            alert('you lose lol');
+            game = null;
+            menu = new Menu();
+        }
+    }
+}
+
+class Menu {
+    constructor() {
+        // coords of start button
+        this.start_l = 256;
+        this.start_t = 186;
+        this.start_r = 458;
+        this.start_b = 275;
+
+        // coords of credits button
+        this.credit_l = 360;
+        this.credit_t = 342;
+        this.credit_r = 511;
+        this.credit_b = 402;
+    }
+
+    onStart(x, y) {
+        if (x >= this.start_l && x <= this.start_r) {
+            if (y >= this.start_t && y <= this.start_b) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    onCredits(x, y) {
+        if (x >= this.credit_l && x <= this.credit_r) {
+            if (y >= this.credit_t && y <= this.credit_b) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    startGame() {
+        game = new Game(test);
+        menu = null;
+    }
 }
