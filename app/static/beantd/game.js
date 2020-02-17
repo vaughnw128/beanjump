@@ -69,7 +69,8 @@ class Menu {
         this.showing = 'main';
 
         this.credits = ['programming/game design: ben lepsch',
-    'gun bean concept: thurston whitlow'];
+    'gun bean concept: thurston whitlow',
+    'moral support: minh dao'];
     }
 
     onStart(x, y) {
