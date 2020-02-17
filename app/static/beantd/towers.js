@@ -91,7 +91,24 @@ class GunBeanIcon extends TowerIcon {
         if (new GunBean(null).cost > game.cash) {
             return;
         }
-        game.placing = new TowerPlace(3, 'gunbean', new GunBean(null).cost);
+        game.placing = new TowerPlace(new GunBean(null).range, 'gunbean', new GunBean(null).cost);
+    }
+}
+
+class LazerBeanIcon extends TowerIcon {
+    constructor() {
+        super(100, 'lazerbeanicon');
+    }
+
+    buyTower() {
+        if (game.placing) {
+            game.placing = null;
+            return;
+        }
+        if (new LazerBean(null).cost > game.cash) {
+            return;
+        }
+        game.placing = new TowerPlace(new LazerBean(null).range, 'lazerbean', new LazerBean(null).cost);
     }
 }
 
@@ -137,6 +154,9 @@ class TowerPlace {
     place() {
         if (this.src == 'gunbean') {
             game.mouseOver.tower = new GunBean(game.mouseOver);
+        }
+        if (this.src == 'lazerbean') {
+            game.mouseOver.tower = new LazerBean(game.mouseOver);
         }
         game.placing = null;
         game.cash -= this.cost;
@@ -215,7 +235,7 @@ class Tower {
             ctx.beginPath();
             ctx.moveTo(this.line.sx, this.line.sy);
             ctx.lineTo(this.line.ex, this.line.ey);
-            ctx.strokeStyle = '#FF0000';
+            ctx.strokeStyle = '#000000';
             ctx.stroke();
         }
     }
@@ -263,10 +283,35 @@ class Tower {
 // basic tower type
 class GunBean extends Tower {
     constructor(tile) {
-        super(tile, 5, 3, 'gunbean', 30, 20);
+        super(tile, 2, 3, 'gunbean', 10, 50);
+    }
+
+    drawLine() {
+        if (this.line) {
+            ctx.beginPath();
+            ctx.moveTo(this.line.sx, this.line.sy);
+            ctx.lineTo(this.line.ex, this.line.ey);
+            ctx.strokeStyle = '#000000';
+            ctx.stroke();
+        }
     }
 
     /* todo: upgrade system */
 }
 
+class LazerBean extends Tower {
+    constructor(tile) {
+        super(tile, 20, 3, 'lazerbean', 60, 100);
+    }
+
+    drawLine() {
+        if (this.line) {
+            ctx.beginPath();
+            ctx.moveTo(this.line.sx, this.line.sy);
+            ctx.lineTo(this.line.ex, this.line.ey);
+            ctx.strokeStyle = '#FF0000';
+            ctx.stroke();
+        }
+    }
+}
 

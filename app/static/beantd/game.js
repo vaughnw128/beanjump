@@ -12,6 +12,7 @@ class Game {
         // for tower menu
         this.towerIcons = [];
         this.towerIcons.push(new GunBeanIcon());
+        this.towerIcons.push(new LazerBeanIcon());
     }
 
     loadLevel(which) {
