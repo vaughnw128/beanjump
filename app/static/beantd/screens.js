@@ -80,5 +80,39 @@ function drawGame() {
 
 function drawMenu() {
     /* todo: draw menu */
-    ctx.drawImage(document.getElementById('btdmenu'), 0, 0);
+    // actually draw out the menu as opposed to loading an image
+    ctx.fillStyle = 'rgb(148, 90, 53)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    if (menu.showing == 'main') {
+        ctx.strokeStyle = 'black';
+        ctx.beginPath();
+        ctx.rect(menu.start_l, menu.start_t, menu.start_r - menu.start_l, menu.start_b - menu.start_t);
+        ctx.stroke();
+
+        ctx.rect(menu.credit_l, menu.credit_t, menu.credit_r - menu.credit_l, menu.credit_b - menu.credit_t);
+        ctx.stroke();
+
+        ctx.font = '30px Calibri';
+        ctx.fillStyle = 'black';
+        ctx.fillText('bean tower defense', 200, 100);
+        ctx.fillText('start gmae', menu.start_l + 30, menu.start_t + 40);
+        ctx.fillText('credits', menu.credit_l + 40, menu.credit_t + 40);
+    }
+    if (menu.showing == 'credits') {
+        ctx.font = '30px Calibri';
+        ctx.fillStyle = 'black';
+        let c = 100;
+        for (let i = 0; i < menu.credits.length; i++) {
+            ctx.fillText(menu.credits[i], 200, c + i*30);
+        }
+
+        ctx.strokeStyle = 'black';
+        ctx.beginPath();
+        ctx.rect(menu.ret_l, menu.ret_t, menu.ret_r - menu.ret_l, menu.ret_b - menu.ret_t);
+        ctx.stroke();
+
+        ctx.fillText('go back', menu.ret_l + 20, menu.ret_t + 30);
+
+    }
 }

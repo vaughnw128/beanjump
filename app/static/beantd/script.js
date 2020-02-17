@@ -29,6 +29,10 @@ canvas.onmousedown = () => {
 		if (menu.onCredits(mouse_x, mouse_y)) {
 			menu.showCredits();
 		}
+
+		if (menu.onReturn(mouse_x, mouse_y)) {
+			menu.showMain();
+		}
 	}
 
 	if (game) {
