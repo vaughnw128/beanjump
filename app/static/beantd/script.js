@@ -68,9 +68,8 @@ canvas.onmousedown = () => {
 				deselecting = false;
 				if (game.selected.tower.path1.length != 0 && game.cash >= game.selected.tower.path1[0].price) {
 					game.cash -= game.selected.tower.path1[0].price;
+					game.selected.tower.path1[0].action();
 					game.selected.tower.path1.splice(0, 1);
-					game.selected.tower.action1[0]();
-					game.selected.tower.action1.splice(0, 1);
 				}
 			}
 

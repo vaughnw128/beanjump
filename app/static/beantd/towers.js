@@ -328,13 +328,11 @@ class GunBean extends Tower {
         this.cooldown = 10;
         this.initialCD = this.cooldown;
         this.cost = 50;
-        this.action1 = [
-            function() {game.selected.tower.damage = 5}
-        ];
         this.path1 = [
             {
                 price: 60,
-                description: 'increase damage from 2 to 5'
+                description: 'increase damage from 2 to 5',
+                action() {game.selected.tower.damage = 5}
             }
         ];
     }
