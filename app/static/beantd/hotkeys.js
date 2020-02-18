@@ -15,7 +15,17 @@ window.onkeyup = function(e) {
 			if (new GunBean(null).cost > game.cash) {
 				return;
 			}
-			game.placing = new TowerPlace(3, 'gunbean', new GunBean(null).cost);
+			game.placing = new TowerPlace(new GunBean(null).range, 'gunbean', new GunBean(null).cost);
+		}
+	}
+	if (key == 76) {
+		if (game.placing) {
+			game.placing = null;
+		} else {
+			if (new LazerBean(null).cost > game.cash) {
+				return;
+			}
+			game.placing = new TowerPlace(new LazerBean(null).range, 'lazerbean', new LazerBean(null).cost);
 		}
 	}
 }
