@@ -206,7 +206,10 @@ class Tower {
             ctx.fillText('no more upgrades', 210, canvas.height - 100);
             ctx.fillText('for this path', 220, canvas.height - 80);
         } else {
-            ctx.fillText(this.path1[0].description, 205, canvas.height - 100);
+            ctx.font = '25px Calibri';
+            ctx.fillText(this.path1[0].title, 205, canvas.height - 120);
+            ctx.font = '20px Calibri';
+            ctx.fillText(this.path1[0].description, 205, canvas.height - 90);
             ctx.fillText(`$${this.path1[0].price}`, 300, canvas.height - 50);
         }
 
@@ -214,7 +217,10 @@ class Tower {
             ctx.fillText('no more upgrades', 510, canvas.height - 100);
             ctx.fillText('for this path', 520, canvas.height - 80);
         } else {
-            ctx.fillText(this.path2[0].description, 505, canvas.height - 100);
+            ctx.font = '25px Calibri';
+            ctx.fillText(this.path2[0].title, 505, canvas.height - 120);
+            ctx.font = '20px Calibri';
+            ctx.fillText(this.path2[0].description, 505, canvas.height - 90);
             ctx.fillText(`$${this.path2[0].price}`, 600, canvas.height - 50);
         }
     }
@@ -332,16 +338,22 @@ class GunBean extends Tower {
         this.path1 = [
             {
                 price: 60,
+                title: 'bigger bullets',
                 description: 'increase damage from 2 to 5',
-                action() {game.selected.tower.damage = 5}
+                action() {
+                    game.selected.tower.damage = 5;
+                }
             }
         ];
 
         this.path2 = [
             {
                 price: 20,
+                title: 'telescope',
                 description: 'increase range to 3 tiles',
-                action() {game.selected.tower.range = 3}
+                action() {
+                    game.selected.tower.range = 3;
+                }
             }
         ];
     }

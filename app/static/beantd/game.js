@@ -7,7 +7,7 @@ class Game {
         this.placing = null;
 
         this.hp = 20;
-        this.cash = 100;
+        this.cash = 200;
         
         // for tower menu
         this.towerIcons = [];
