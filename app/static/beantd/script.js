@@ -36,12 +36,14 @@ canvas.onmousedown = () => {
 	}
 
 	if (game) {
+		// placing towers
 		for (let i = 0; i < game.towerIcons.length; i++) {
 			if (game.towerIcons[i].hasCoords(mouse_x, mouse_y)) {
 				game.towerIcons[i].buyTower();
 			}
 		}
 
+		// selecting towers
 		for (let i = 0; i < game.level.length; i++) {
 			for (let j = 0; j < game.level[0].length; j++) {
 				if (game.level[i][j].hasCoords(mouse_x, mouse_y)) {
@@ -58,7 +60,30 @@ canvas.onmousedown = () => {
 			}
 		}
 
-		game.selected = null;
+		// tower upgrades
+		let deselecting = true;
+		if (game.selected) {
+			if (mouse_x >= 200 && mouse_x < 500 && mouse_y >= canvas.height - 150 && mouse_y <= canvas.height) {
+				// path1 upgrade
+				deselecting = false;
+				if (game.selected.tower.path1.length != 0 && game.cash >= game.selected.tower.path1[0].price) {
+					game.cash -= game.selected.tower.path1[0].price;
+					game.selected.tower.path1.splice(0, 1);
+					game.selected.tower.action1[0]();
+					game.selected.tower.action1.splice(0, 1);
+				}
+			}
+
+			if (mouse_x >= 500 && mouse_x <= 800 && mouse_y >= canvas.height - 150 && mouse_y <= canvas.height) {
+				// path2 upgrade
+				deselecting = false;
+
+			}
+		}
+
+		if (deselecting) {
+			game.selected = null;
+		}
 	}
 }
 

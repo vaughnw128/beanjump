@@ -54,6 +54,10 @@ function drawGame() {
     ctx.fillStyle = 'rgb(204, 200, 0)';
     ctx.fillRect(0, canvas.height - 150, canvas.width, canvas.height);
 
+    if (game.selected) {
+        game.selected.tower.drawUpgradeMenu();
+    }
+
     // draw base hp/gold
     ctx.font = '20px Arial';
     ctx.fillStyle = 'black';

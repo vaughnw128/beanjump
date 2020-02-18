@@ -180,6 +180,43 @@ class Tower {
         this.cooldown = this.initialCD;
         this.cost = 0;
         this.line = null;
+        this.path1 = [];
+        this.path2 = [];
+    }
+
+    drawUpgradeMenu() {
+        ctx.beginPath();
+        ctx.moveTo(200, canvas.height - 150);
+        ctx.lineTo(200, canvas.height);
+        ctx.strokeStyle = '#000000';
+        ctx.stroke();
+        
+        ctx.moveTo(500, canvas.height - 150);
+        ctx.lineTo(500, canvas.height);
+        ctx.stroke();
+
+        ctx.moveTo(800, canvas.height - 150);
+        ctx.lineTo(800, canvas.height);
+        ctx.stroke();
+
+        ctx.font = '20px Calibri';
+        ctx.fillStyle =  'black';
+
+        if (this.path1.length == 0) {
+            ctx.fillText('no more upgrades', 210, canvas.height - 100);
+            ctx.fillText('for this path', 220, canvas.height - 80);
+        } else {
+            ctx.fillText(this.path1[0].description, 205, canvas.height - 100);
+            ctx.fillText(`$${this.path1[0].price}`, 300, canvas.height - 50);
+        }
+
+        if (this.path2.length == 0) {
+            ctx.fillText('no more upgrades', 510, canvas.height - 100);
+            ctx.fillText('for this path', 520, canvas.height - 80);
+        } else {
+            ctx.fillText(this.path2[0].description, 505, canvas.height - 100);
+            ctx.fillText(`$${this.path2[0].price}`, 600, canvas.height - 50);
+        }
     }
 
     shoot() {
@@ -291,6 +328,15 @@ class GunBean extends Tower {
         this.cooldown = 10;
         this.initialCD = this.cooldown;
         this.cost = 50;
+        this.action1 = [
+            function() {game.selected.tower.damage = 5}
+        ];
+        this.path1 = [
+            {
+                price: 60,
+                description: 'increase damage from 2 to 5'
+            }
+        ];
     }
 
     drawLine() {
