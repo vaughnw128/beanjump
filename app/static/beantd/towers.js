@@ -165,20 +165,20 @@ class TowerPlace {
 
 // the actual tower that stays on the tile and shoots and is upgradeable
 class Tower {
-    constructor(tile, damage, range, src, cooldown, cost, direction=0, targeting='first') {
-        this.damage = damage;
-        this.range = range;
-        this.tile = tile;
-        this.src = src;
+    constructor(direction=0, targeting='first') {
+        this.damage = 0;
+        this.range = 0;
+        this.tile = null;
+        this.src = '';
         this.direction = direction;
         this.width = 40;
         this.height = 40;
         this.xoff = this.width/2;
         this.yoff = this.height/2;
         this.targeting = targeting;
-        this.initialCD = cooldown;
+        this.initialCD = 0;
         this.cooldown = this.initialCD;
-        this.cost = cost;
+        this.cost = 0;
         this.line = null;
     }
 
@@ -283,7 +283,14 @@ class Tower {
 // basic tower type
 class GunBean extends Tower {
     constructor(tile) {
-        super(tile, 2, 3, 'gunbean', 10, 50);
+        super();
+        this.tile = tile;
+        this.damage = 2;
+        this.range = 3;
+        this.src = 'gunbean';
+        this.cooldown = 10;
+        this.initialCD = this.cooldown;
+        this.cost = 50;
     }
 
     drawLine() {
@@ -301,7 +308,14 @@ class GunBean extends Tower {
 
 class LazerBean extends Tower {
     constructor(tile) {
-        super(tile, 20, 3, 'lazerbean', 60, 100);
+        super();
+        this.tile = tile;
+        this.damage = 20;
+        this.range = 3;
+        this.src = 'lazerbean';
+        this.cooldown = 60;
+        this.initialCD = this.cooldown;
+        this.cost = 100;
     }
 
     drawLine() {
