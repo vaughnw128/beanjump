@@ -56,6 +56,13 @@ function drawGame() {
 
     if (game.selected) {
         game.selected.tower.drawUpgradeMenu();
+        ctx.strokeStyle = 'black';
+        ctx.beginPath();
+        ctx.rect(20, canvas.height - 60, 100, 50);
+        ctx.stroke();
+        ctx.fillStyle = 'black';
+        ctx.font = '20px Calibri';
+        ctx.fillText(`sell for $${game.selected.tower.value}`, 25, canvas.height - 35);
     }
 
     // draw base hp/gold

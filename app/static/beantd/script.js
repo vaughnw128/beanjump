@@ -68,6 +68,7 @@ canvas.onmousedown = () => {
 				deselecting = false;
 				if (game.selected.tower.path1.length != 0 && game.cash >= game.selected.tower.path1[0].price) {
 					game.cash -= game.selected.tower.path1[0].price;
+					game.selected.tower.value += game.selected.tower.path1[0].price/2;
 					game.selected.tower.path1[0].action();
 					game.selected.tower.path1.splice(0, 1);
 				}
@@ -78,9 +79,14 @@ canvas.onmousedown = () => {
 				deselecting = false;
 				if (game.selected.tower.path2.length != 0 && game.cash >= game.selected.tower.path2[0].price) {
 					game.cash -= game.selected.tower.path2[0].price;
+					game.selected.tower.value += game.selected.tower.path2[0].price/2;
 					game.selected.tower.path2[0].action();
 					game.selected.tower.path2.splice(0, 1);
 				}
+			}
+
+			if (mouse_x >= 20 && mouse_x <= 120 && mouse_y >= canvas.height - 60 && mouse_y <= canvas.height - 10) {
+				game.selected.tower.sell();
 			}
 		}
 

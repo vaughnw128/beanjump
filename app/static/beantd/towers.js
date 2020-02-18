@@ -154,9 +154,11 @@ class TowerPlace {
     place() {
         if (this.src == 'gunbean') {
             game.mouseOver.tower = new GunBean(game.mouseOver);
+            game.mouseOver.tower.value = parseInt(new GunBean(null).cost*2/3);
         }
         if (this.src == 'lazerbean') {
             game.mouseOver.tower = new LazerBean(game.mouseOver);
+            game.mouseOver.tower.value = parseInt(new LazerBean(null).cost*2/3);
         }
         game.placing = null;
         game.cash -= this.cost;
@@ -166,6 +168,7 @@ class TowerPlace {
 // the actual tower that stays on the tile and shoots and is upgradeable
 class Tower {
     constructor(direction=0, targeting='first') {
+        this.value = 0;
         this.damage = 0;
         this.range = 0;
         this.tile = null;
@@ -320,6 +323,11 @@ class Tower {
         ctx.rotate(this.direction*Math.PI/180);
         ctx.drawImage(document.getElementById(this.src),-1*this.xoff, -1*this.yoff);
         ctx.restore();
+    }
+
+    sell() {
+        game.cash += this.value;
+        this.tile.tower = null;
     }
 }
 
