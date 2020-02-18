@@ -323,16 +323,25 @@ class GunBean extends Tower {
         super();
         this.tile = tile;
         this.damage = 2;
-        this.range = 3;
+        this.range = 2;
         this.src = 'gunbean';
         this.cooldown = 10;
         this.initialCD = this.cooldown;
         this.cost = 50;
+        
         this.path1 = [
             {
                 price: 60,
                 description: 'increase damage from 2 to 5',
                 action() {game.selected.tower.damage = 5}
+            }
+        ];
+
+        this.path2 = [
+            {
+                price: 20,
+                description: 'increase range to 3 tiles',
+                action() {game.selected.tower.range = 3}
             }
         ];
     }
@@ -360,6 +369,14 @@ class LazerBean extends Tower {
         this.cooldown = 60;
         this.initialCD = this.cooldown;
         this.cost = 100;
+
+        this.path1 = [
+
+        ];
+
+        this.path2 = [
+
+        ];
     }
 
     drawLine() {

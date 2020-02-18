@@ -76,7 +76,11 @@ canvas.onmousedown = () => {
 			if (mouse_x >= 500 && mouse_x <= 800 && mouse_y >= canvas.height - 150 && mouse_y <= canvas.height) {
 				// path2 upgrade
 				deselecting = false;
-
+				if (game.selected.tower.path2.length != 0 && game.cash >= game.selected.tower.path2[0].price) {
+					game.cash -= game.selected.tower.path2[0].price;
+					game.selected.tower.path2[0].action();
+					game.selected.tower.path2.splice(0, 1);
+				}
 			}
 		}
 
