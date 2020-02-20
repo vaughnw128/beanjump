@@ -85,7 +85,7 @@ canvas.onmousedown = () => {
 				}
 			}
 
-			if (mouse_x >= 20 && mouse_x <= 120 && mouse_y >= canvas.height - 60 && mouse_y <= canvas.height - 10) {
+			if (mouse_x >= 20 && mouse_x <= 170 && mouse_y >= canvas.height - 60 && mouse_y <= canvas.height - 10) {
 				game.selected.tower.sell();
 			}
 		}
@@ -95,6 +95,7 @@ canvas.onmousedown = () => {
 		}
 	}
 }
+let paused = false;
 
 let fpsInterval, then, startTime, elapsed;
 function startGame(fps) {
@@ -110,7 +111,7 @@ function runGame() {
 	now = Date.now();
 	elapsed = now - then;
 
-	if (elapsed > fpsInterval) {
+	if (elapsed > fpsInterval && !paused) {
 		then = now - (elapsed % fpsInterval);
         
 		ctx.clearRect(0, 0, canvas.width, canvas.height);

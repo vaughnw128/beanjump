@@ -375,8 +375,6 @@ class GunBean extends Tower {
             ctx.stroke();
         }
     }
-
-    /* todo: upgrade system */
 }
 
 class LazerBean extends Tower {
@@ -389,13 +387,28 @@ class LazerBean extends Tower {
         this.cooldown = 60;
         this.initialCD = this.cooldown;
         this.cost = 100;
+        this.explosion = false;
 
         this.path1 = [
-
+            {
+                price: 300,
+                title: 'high power shots',
+                description: 'lazer explodes the enemy it hits',
+                action() {
+                    game.selected.tower.explosion = true;
+                }
+            }
         ];
 
         this.path2 = [
-
+            {
+                price: 120,
+                title: 'quick charge',
+                description: 'reduce cooldown between shots',
+                action() {
+                    game.selected.tower.initialCD = 30;
+                }
+            }
         ];
     }
 
@@ -407,6 +420,57 @@ class LazerBean extends Tower {
             ctx.strokeStyle = '#FF0000';
             ctx.stroke();
         }
+    }
+
+    shoot() {
+        // check all game.enemies to see who is in range and furthest along the path
+        let available = [];
+
+        for (let i = 0; i < game.enemies.length; i++) {
+            let dx = Math.abs(this.tile.left + this.tile.width/2 - game.enemies[i].left);
+            let dy = Math.abs(this.tile.top + this.tile.height/2 - game.enemies[i].top);
+            let dist = Math.sqrt((dx*dx) + (dy*dy));
+
+            if (dist < this.range*50 + 25) {
+                available.push(game.enemies[i]);
+            }
+        }
+
+        if (available.length == 0) {
+            return;
+        }
+        let index;
+
+        if (this.targeting == 'first') {
+            // find furthest along path
+            let max_dist = available[0].dist;
+            index = 0;
+            for (let i = 1; i < available.length; i++) {
+                if (available[i].dist > max_dist) {
+                    max_dist = available[i].dist;
+                    index = i;
+                }
+            }
+        }
+
+        this.line = {
+            sx: this.tile.left + this.tile.width/2,
+            sy: this.tile.top + this.tile.height/2,
+            ex: available[index].left,
+            ey: available[index].top
+        };
+
+        this.direction = 90 + 180*Math.atan((this.line.ey-this.line.sy)/(this.line.ex-this.line.sx))/Math.PI;
+        
+        if (this.line.ex < this.line.sx) {
+            this.direction += 180;
+        }
+        available[index].hp -= this.damage;
+
+        // add options for strongest/weakest targeting too
+        
+
+        this.cooldown = this.initialCD;
     }
 }
 

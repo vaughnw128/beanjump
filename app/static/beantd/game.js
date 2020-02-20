@@ -72,7 +72,7 @@ class Menu {
         this.credits = ['programming/game design: ben lepsch',
     'gun bean concept: thurston whitlow',
     'moral support: minh dao',
-    'occasional debugger 1: jonah newman',
+    'occasional debugger 1: avery newman',
     'occasional debugger 2: alex ralstone'];
     }
 

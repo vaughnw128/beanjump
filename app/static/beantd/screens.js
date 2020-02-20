@@ -58,7 +58,7 @@ function drawGame() {
         game.selected.tower.drawUpgradeMenu();
         ctx.strokeStyle = 'black';
         ctx.beginPath();
-        ctx.rect(20, canvas.height - 60, 100, 50);
+        ctx.rect(20, canvas.height - 60, 150, 50);
         ctx.stroke();
         ctx.fillStyle = 'black';
         ctx.font = '20px Calibri';
