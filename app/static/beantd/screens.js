@@ -53,7 +53,7 @@ function drawGame() {
     // draw bottom menu/upgrade display
     ctx.fillStyle = 'rgb(204, 200, 0)';
     ctx.fillRect(0, canvas.height - 150, canvas.width, canvas.height);
-
+    ctx.lineWidth = 1;
     if (game.selected) {
         game.selected.tower.drawUpgradeMenu();
         ctx.strokeStyle = 'black';

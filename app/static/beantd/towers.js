@@ -369,6 +369,7 @@ class GunBean extends Tower {
     drawLine() {
         if (this.line) {
             ctx.beginPath();
+            ctx.lineWidth = 1;
             ctx.moveTo(this.line.sx, this.line.sy);
             ctx.lineTo(this.line.ex, this.line.ey);
             ctx.strokeStyle = '#000000';
@@ -382,12 +383,19 @@ class LazerBean extends Tower {
         super();
         this.tile = tile;
         this.damage = 20;
-        this.range = 3;
+        this.range = 2;
         this.src = 'lazerbean';
         this.cooldown = 60;
         this.initialCD = this.cooldown;
         this.cost = 100;
-        this.explosion = false;
+        this.lazerWidth = 1;
+        this.explode = false;
+        this.explosion = {
+            c_x: 0,
+            c_y: 0,
+            radius: 50,
+            damage: 20
+        };
 
         this.path1 = [
             {
@@ -395,7 +403,9 @@ class LazerBean extends Tower {
                 title: 'high power shots',
                 description: 'lazer explodes the enemy it hits',
                 action() {
-                    game.selected.tower.explosion = true;
+                    game.selected.tower.damage = 50;
+                    game.selected.tower.explode = true;
+                    game.selected.tower.lazerWidth = 3;
                 }
             }
         ];
@@ -415,10 +425,17 @@ class LazerBean extends Tower {
     drawLine() {
         if (this.line) {
             ctx.beginPath();
+            ctx.lineWidth = this.lazerWidth;
             ctx.moveTo(this.line.sx, this.line.sy);
             ctx.lineTo(this.line.ex, this.line.ey);
             ctx.strokeStyle = '#FF0000';
             ctx.stroke();
+        }
+        if (this.explode && this.line) {
+            ctx.beginPath();
+            ctx.arc(this.explosion.c_x, this.explosion.c_y, this.explosion.radius, 0, 2*Math.PI);
+            ctx.fillStyle = 'rgb(255,0,0,0.25)';
+            ctx.fill();
         }
     }
 
@@ -460,12 +477,29 @@ class LazerBean extends Tower {
             ey: available[index].top
         };
 
+        if (this.explode) {
+            this.explosion.c_x = this.line.ex;
+            this.explosion.c_y = this.line.ey;
+        }
+
         this.direction = 90 + 180*Math.atan((this.line.ey-this.line.sy)/(this.line.ex-this.line.sx))/Math.PI;
         
         if (this.line.ex < this.line.sx) {
             this.direction += 180;
         }
+
         available[index].hp -= this.damage;
+
+        if (this.explode) {
+            // find everyone in radius
+            for (let i = 0; i < game.enemies.length; i++) {
+                if (game.enemies[i].toString() != available[index].toString()) {
+                    if (distBetween(this.line.ex, this.line.ey, game.enemies[i].left, game.enemies[i].top) <= this.explosion.radius) {
+                        game.enemies[i].hp -= this.explosion.damage;
+                    }
+                }
+            }
+        }
 
         // add options for strongest/weakest targeting too
         

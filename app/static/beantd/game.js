@@ -1,3 +1,9 @@
+function distBetween(x1, y1, x2, y2) {
+    let dx = Math.abs(x2 - x1);
+    let dy = Math.abs(y2 - y1);
+    return Math.sqrt(dx*dx + dy*dy);
+}
+
 class Game {
     constructor(level) {
         this.loadLevel(level);
