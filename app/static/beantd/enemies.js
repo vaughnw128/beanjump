@@ -7,12 +7,13 @@
 class Wave {
     constructor(onLevel=1) {
         this.cdBetween = 50 * 1/onLevel;
-        this.cdBetween = (this.cdBetween < 15) ? 15 : this.cdBetween;
+        this.cdBetween = (this.cdBetween < 12) ? 12 : this.cdBetween;
         this.cooldown = 0;
         this.enemies = [];
         this.finishReward = 50;
 
-        let difficulty = onLevel*100;
+        let difficulty = (Math.pow(Math.E, .1*onLevel) + onLevel)*100;
+        console.log(difficulty);
 
         while (difficulty > 200) {
             difficulty -= 100;

@@ -385,7 +385,7 @@ class LazerBean extends Tower {
         this.damage = 20;
         this.range = 2;
         this.src = 'lazerbean';
-        this.cooldown = 60;
+        this.cooldown = 90;
         this.initialCD = this.cooldown;
         this.cost = 100;
         this.lazerWidth = 1;
@@ -399,7 +399,7 @@ class LazerBean extends Tower {
 
         this.path1 = [
             {
-                price: 300,
+                price: 450,
                 title: 'high power shots',
                 description: 'lazer explodes the enemy it hits',
                 action() {
@@ -416,7 +416,7 @@ class LazerBean extends Tower {
                 title: 'quick charge',
                 description: 'reduce cooldown between shots',
                 action() {
-                    game.selected.tower.initialCD = 30;
+                    game.selected.tower.initialCD = 60;
                 }
             }
         ];
