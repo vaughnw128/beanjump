@@ -90,6 +90,15 @@ canvas.onmousedown = () => {
 			}
 		}
 
+		// next wave
+		if (!game.wave) {
+			if (mouse_x >= canvas.width - 200 && mouse_x <= canvas.width &&
+				mouse_y >= canvas.height - 200 && mouse_y <= canvas.height - 150) {
+				game.wave = new Wave(game.onLevel);
+				deselecting = false;
+			}
+		}
+
 		if (deselecting) {
 			game.selected = null;
 		}

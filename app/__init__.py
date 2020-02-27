@@ -20,4 +20,4 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 socketio = SocketIO(app, async_mode='eventlet')
 
-from app import routes, beanjump, beansjumproute, models, beansjump
+from app import routes, beanjump, models, beansjump # , beansjumproute

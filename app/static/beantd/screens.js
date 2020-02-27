@@ -52,8 +52,8 @@ function drawGame() {
 
     // draw bottom menu/upgrade display
     ctx.fillStyle = 'rgb(204, 200, 0)';
-    ctx.fillRect(0, canvas.height - 150, canvas.width, canvas.height);
     ctx.lineWidth = 1;
+    ctx.fillRect(0, canvas.height - 150, canvas.width, canvas.height);
     if (game.selected) {
         game.selected.tower.drawUpgradeMenu();
         ctx.strokeStyle = 'black';
@@ -69,7 +69,20 @@ function drawGame() {
     ctx.font = '20px Arial';
     ctx.fillStyle = 'black';
     ctx.fillText(`base hp: ${game.hp}`, 10, canvas.height - 120);
-    ctx.fillText(`cash: $${game.cash}`, 10, canvas.height - 90)
+    ctx.fillText(`cash: $${game.cash}`, 10, canvas.height - 95);
+
+    ctx.strokeStyle = 'black';
+    ctx.lineWidth = 1;
+    if (!game.wave) {
+        ctx.beginPath();
+        ctx.moveTo(canvas.width-200, canvas.height-200);
+        ctx.lineTo(canvas.width, canvas.height-200);
+        ctx.stroke();
+        ctx.fillText('next wave', canvas.width - 180, canvas.height - 170);
+    } else {
+        ctx.fillText(`level ${game.onLevel}`, 10, canvas.height - 70);
+        game.wave.update();
+    }
 
     // draw enemies
     for (let i = 0; i < game.enemies.length; i++) {

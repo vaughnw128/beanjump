@@ -336,7 +336,7 @@ class GunBean extends Tower {
     constructor(tile) {
         super();
         this.tile = tile;
-        this.damage = 2;
+        this.damage = 4;
         this.range = 2;
         this.src = 'gunbean';
         this.cooldown = 10;
@@ -347,9 +347,9 @@ class GunBean extends Tower {
             {
                 price: 60,
                 title: 'bigger bullets',
-                description: 'increase damage from 2 to 5',
+                description: 'increase damage from 4 to 10',
                 action() {
-                    game.selected.tower.damage = 5;
+                    game.selected.tower.damage = 10;
                 }
             }
         ];

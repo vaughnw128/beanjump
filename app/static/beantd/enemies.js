@@ -1,4 +1,54 @@
 /*
+    represents a wave of enemies
+    i need a way to make it so that it will automatically create waves from a number
+    no randomization either so the levels are all the same
+*/
+
+class Wave {
+    constructor(onLevel=1) {
+        this.cdBetween = 50 * 1/onLevel;
+        this.cdBetween = (this.cdBetween < 15) ? 15 : this.cdBetween;
+        this.cooldown = 0;
+        this.enemies = [];
+        this.finishReward = 50;
+
+        let difficulty = onLevel*100;
+
+        while (difficulty > 200) {
+            difficulty -= 100;
+            this.enemies.push(new UncleSam());
+        }
+
+        while (difficulty > 0) {
+            difficulty -= 10;
+            this.enemies.push(new Redneck());
+        }
+    }
+
+    update() {
+        if (this.spawning() && this.enemies.length >= 1) {
+            this.enemies[0].created = new Date().getTime();
+            game.enemies.push(this.enemies[0]);
+            this.enemies.splice(0, 1);
+        }
+        if (this.enemies.length == 0 && game.enemies.length == 0) {
+            game.onLevel += 1;
+            game.cash += this.finishReward;
+            game.wave = null;
+        }
+    }
+
+    spawning() {
+        if (this.cooldown <= 0) {
+            this.cooldown = this.cdBetween;
+            return true;
+        }
+        this.cooldown -= 1;
+        return false;
+    }
+}
+
+/*
     enemy movement is gonna be like
     each path tile has a direction encoded into it
     when the enemy reaches the center of the tile (+- a few px) 

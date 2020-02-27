@@ -19,6 +19,9 @@ class Game {
         this.towerIcons = [];
         this.towerIcons.push(new GunBeanIcon());
         this.towerIcons.push(new LazerBeanIcon());
+
+        this.wave = null;
+        this.onLevel = 1;
     }
 
     loadLevel(which) {
