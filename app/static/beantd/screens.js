@@ -136,6 +136,5 @@ function drawMenu() {
         ctx.stroke();
 
         ctx.fillText('go back', menu.ret_l + 20, menu.ret_t + 30);
-
     }
 }

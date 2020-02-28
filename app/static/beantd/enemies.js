@@ -10,10 +10,15 @@ class Wave {
         this.cdBetween = (this.cdBetween < 12) ? 12 : this.cdBetween;
         this.cooldown = 0;
         this.enemies = [];
-        this.finishReward = 50;
+        this.finishReward = 60;
 
         let difficulty = (Math.pow(Math.E, .1*onLevel) + onLevel)*100;
         console.log(difficulty);
+
+        while (difficulty > 1000) {
+            difficulty -= 900;
+            this.enemies.push(new Warren());
+        }
 
         while (difficulty > 200) {
             difficulty -= 100;
@@ -21,7 +26,7 @@ class Wave {
         }
 
         while (difficulty > 0) {
-            difficulty -= 10;
+            difficulty -= 30;
             this.enemies.push(new Redneck());
         }
     }
@@ -65,7 +70,7 @@ class Enemy {
         this.xoff = this.width/2;
         this.yoff = this.height/2;
         this.hp = hp;
-        this.value = hp/20;
+        this.value = parseInt(hp/20);
         this.speed = speed;
         this.realSpeed = speed;
         this.slowCD = 0;
@@ -161,18 +166,26 @@ class Enemy {
     }
 }
 
+class Warren extends Enemy {
+    constructor(left, top) {
+        let l = (left) ? left : game.startTile.left + game.startTile.width/2;
+        let t = (top) ? top : game.startTile.top + game.startTile.height/2;
+        super(850, 1.5, l, t, game.startTile.direction, 'warren', 5);
+    }
+}
+
 class UncleSam extends Enemy {
-    constructor() {
-        let left = game.startTile.left + game.startTile.width/2;
-        let top = game.startTile.top + game.startTile.height/2;
-        super(100, 1, left, top, game.startTile.direction, 'unclesam', 2);
+    constructor(left, top) {
+        let l = (left) ? left : game.startTile.left + game.startTile.width/2;
+        let t = (top) ? top : game.startTile.top + game.startTile.height/2;
+        super(100, 1, l, t, game.startTile.direction, 'unclesam', 2);
     }
 }
 
 class Redneck extends Enemy {
-    constructor() {
-        let left = game.startTile.left + game.startTile.width/2;
-        let top = game.startTile.top + game.startTile.height/2;
-        super(20, 2, left, top, game.startTile.direction, 'redneck', 1);
+    constructor(left, top) {
+        let l = (left) ? left : game.startTile.left + game.startTile.width/2;
+        let t = (top) ? top : game.startTile.top + game.startTile.height/2;
+        super(20, 2, l, t, game.startTile.direction, 'redneck', 1);
     }
 }
