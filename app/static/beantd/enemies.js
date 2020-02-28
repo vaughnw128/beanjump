@@ -67,6 +67,8 @@ class Enemy {
         this.hp = hp;
         this.value = hp/20;
         this.speed = speed;
+        this.realSpeed = speed;
+        this.slowCD = 0;
         this.left = left;
         this.top = top;
         this.direction = direction; // angle probably
@@ -77,8 +79,15 @@ class Enemy {
     }
 
     update() {
+        if (this.slowCD <= 0) {
+            this.speed = this.realSpeed;
+        } else {
+            this.slowCD -= 1;
+        }
+        
         let now = new Date().getTime();
-        this.dist = (now - this.created) * this.speed;
+        this.dist += (now - this.created) * this.speed;
+        this.created = now;
         for (let i = 0; i < game.level.length; i++) {
             for (let j = 0; j < game.level[0].length; j++) {
                 if (!(game.level[i][j] instanceof Path)) {

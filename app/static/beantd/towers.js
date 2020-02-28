@@ -80,7 +80,7 @@ class TowerIcon {
 
 class GunBeanIcon extends TowerIcon {
     constructor() {
-        super(25, 'gunbeanicon');
+        super(100, 'gunbeanicon');
     }
 
     buyTower() {
@@ -97,7 +97,7 @@ class GunBeanIcon extends TowerIcon {
 
 class LazerBeanIcon extends TowerIcon {
     constructor() {
-        super(100, 'lazerbeanicon');
+        super(175, 'lazerbeanicon');
     }
 
     buyTower() {
@@ -393,19 +393,26 @@ class LazerBean extends Tower {
         this.explosion = {
             c_x: 0,
             c_y: 0,
-            radius: 50,
+            radius: 30,
             damage: 20
         };
 
         this.path1 = [
             {
-                price: 450,
+                price: 200,
                 title: 'high power shots',
-                description: 'lazer explodes the enemy it hits',
+                description: 'lazer does more damage',
                 action() {
                     game.selected.tower.damage = 50;
-                    game.selected.tower.explode = true;
                     game.selected.tower.lazerWidth = 3;
+                }
+            },
+            {
+                price: 600,
+                title: 'explody',
+                description: 'lazer explodes enemy it hits',
+                action() {
+                    game.selected.tower.explode = true;
                 }
             }
         ];
@@ -507,4 +514,3 @@ class LazerBean extends Tower {
         this.cooldown = this.initialCD;
     }
 }
-

@@ -49,6 +49,24 @@ function drawGame() {
         game.towerIcons[i].draw();
     }
 
+    // draw base hp/gold
+    ctx.font = '20px Arial';
+    ctx.fillStyle = 'black';
+    ctx.fillText(`base hp: ${game.hp}`, canvas.width - 175, 25);
+    ctx.fillText(`cash: $${game.cash}`, canvas.width - 175, 50);
+
+    ctx.strokeStyle = 'black';
+    ctx.lineWidth = 1;
+    if (!game.wave) {
+        ctx.beginPath();
+        ctx.moveTo(canvas.width-200, canvas.height-200);
+        ctx.lineTo(canvas.width, canvas.height-200);
+        ctx.stroke();
+        ctx.fillText('next wave', canvas.width - 180, canvas.height - 170);
+    } else {
+        ctx.fillText(`level ${game.onLevel}`, canvas.width - 175, 75);
+        game.wave.update();
+    }
 
     // draw bottom menu/upgrade display
     ctx.fillStyle = 'rgb(204, 200, 0)';
@@ -63,25 +81,6 @@ function drawGame() {
         ctx.fillStyle = 'black';
         ctx.font = '20px Calibri';
         ctx.fillText(`sell for $${game.selected.tower.value}`, 25, canvas.height - 35);
-    }
-
-    // draw base hp/gold
-    ctx.font = '20px Arial';
-    ctx.fillStyle = 'black';
-    ctx.fillText(`base hp: ${game.hp}`, 10, canvas.height - 120);
-    ctx.fillText(`cash: $${game.cash}`, 10, canvas.height - 95);
-
-    ctx.strokeStyle = 'black';
-    ctx.lineWidth = 1;
-    if (!game.wave) {
-        ctx.beginPath();
-        ctx.moveTo(canvas.width-200, canvas.height-200);
-        ctx.lineTo(canvas.width, canvas.height-200);
-        ctx.stroke();
-        ctx.fillText('next wave', canvas.width - 180, canvas.height - 170);
-    } else {
-        ctx.fillText(`level ${game.onLevel}`, 10, canvas.height - 70);
-        game.wave.update();
     }
 
     // draw enemies
