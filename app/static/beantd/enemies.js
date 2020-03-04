@@ -70,7 +70,7 @@ class Enemy {
         this.xoff = this.width/2;
         this.yoff = this.height/2;
         this.hp = hp;
-        this.value = parseInt(hp/20);
+        this.value = Math.ceil(hp/20);
         this.speed = speed;
         this.realSpeed = speed;
         this.slowCD = 0;

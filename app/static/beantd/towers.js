@@ -345,7 +345,7 @@ class GunBean extends Tower {
         
         this.path1 = [
             {
-                price: 60,
+                price: 70,
                 title: 'bigger bullets',
                 description: 'increase damage from 4 to 10',
                 action() {
@@ -356,11 +356,20 @@ class GunBean extends Tower {
 
         this.path2 = [
             {
-                price: 20,
+                price: 30,
                 title: 'telescope',
                 description: 'increase range to 3 tiles',
                 action() {
                     game.selected.tower.range = 3;
+                }
+            },
+            {
+                price: 160,
+                title: 'fully automatic',
+                description: 'increase hit speed',
+                action() {
+                    game.selected.tower.initialCD = 8;
+                    game.selected.tower.cooldown = 0;
                 }
             }
         ];
