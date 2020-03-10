@@ -160,6 +160,10 @@ class TowerPlace {
             game.mouseOver.tower = new LazerBean(game.mouseOver);
             game.mouseOver.tower.value = parseInt(new LazerBean(null).cost*2/3);
         }
+        if (this.src == 'beanberg') {
+            game.mouseOver.tower = new BeanBerg(game.mouseOver);
+            game.mouseOver.tower.value = parseInt(new BeanBerg(null).cost*2/3);
+        }
         game.placing = null;
         game.cash -= this.cost;
     }
@@ -522,7 +526,12 @@ class BeanBerg extends Tower {
         this.cooldown = 120;
         this.initialCD = this.cooldown;
         this.cost = 200;
-        this.color = 'yellow'; // can change to represent higher levels
+        this.color = 'rgb(255, 255, 0, 0.25)'; // can change to represent higher levels
+        this.slow = {
+            // 60 = 1 second
+            cooldown: 60*5,
+            percentage: .5
+        };
 
         this.path1 = [
 
@@ -534,6 +543,32 @@ class BeanBerg extends Tower {
     }
 
     drawLine() {
+        if (this.line) {
+            ctx.beginPath();
+            ctx.arc(this.tile.left + this.tile.width/2, this.tile.top + this.tile.height/2, this.range*50 + 25, 0, 2*Math.PI, false);
+            ctx.fillStyle = this.color;
+            ctx.fill();
+        }
+    }
 
+    shoot() {
+        let available = this.getAvailableEnemies();
+        
+        if (available.length == 0) {
+            return;
+        }
+
+        for (let i = 0; i < available.length; i++) {
+            if (available[i].slowCD <= this.slow.cooldown) {
+                available[i].slowCD = this.slow.cooldown;
+                available[i].speed = available[i].realSpeed*this.slow.percentage;
+            }
+        }
+
+        this.line = {
+            radius: this.range * 50 + 25
+        };
+        
+        this.cooldown = this.initialCD;
     }
 }

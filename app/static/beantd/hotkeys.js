@@ -38,7 +38,10 @@ window.onkeyup = function(e) {
 		if (game.placing) {
 			game.placing = null;
 		} else {
-			
+			if (new BeanBerg(null).cost > game.cash) {
+				return;
+			}
+			game.placing = new TowerPlace(new BeanBerg(null).range, 'beanberg', new BeanBerg(null).cost);
 		}
 	}
 
