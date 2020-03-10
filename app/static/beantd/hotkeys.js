@@ -45,6 +45,14 @@ window.onkeyup = function(e) {
 		}
 	}
 
+	// s to sell a tower
+	if (key == 83) {
+		if (game.selected) {
+			game.selected.tower.sell();
+			game.selected = null;
+		}
+	}
+
 	// esc to cancel placing a tower
 	if (key == 27) {
 		if (game.placing) {

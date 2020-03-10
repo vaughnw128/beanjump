@@ -353,7 +353,7 @@ class GunBean extends Tower {
         this.damage = 4;
         this.range = 2;
         this.src = 'gunbean';
-        this.cooldown = 10;
+        this.cooldown = 30;
         this.initialCD = this.cooldown;
         this.cost = 50;
         
@@ -382,7 +382,7 @@ class GunBean extends Tower {
                 title: 'fully automatic',
                 description: 'increase hit speed',
                 action() {
-                    game.selected.tower.initialCD = 8;
+                    game.selected.tower.initialCD = 15;
                     game.selected.tower.cooldown = 0;
                 }
             }
@@ -523,14 +523,15 @@ class BeanBerg extends Tower {
         this.damage = 0;
         this.range = 1;
         this.src = 'beanberg';
-        this.cooldown = 120;
+        this.cooldown = 180;
         this.initialCD = this.cooldown;
         this.cost = 200;
         this.color = 'rgb(255, 255, 0, 0.25)'; // can change to represent higher levels
         this.slow = {
             // 60 = 1 second
-            cooldown: 60*5,
-            percentage: .5
+            cooldown: 60*4,
+            // percentage of original speed
+            percentage: .6
         };
 
         this.path1 = [
