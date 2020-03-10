@@ -2,12 +2,14 @@ const keys = {};
 
 window.onkeyup = function(e) {
 	let key = e.keyCode ? e.keyCode : e.which;
-	if (key == 85) {
-		game.enemies.push(new UncleSam());
-	}
-	if (key == 82) {
-		game.enemies.push(new Redneck());
-	}
+	// if (key == 85) {
+	// 	game.enemies.push(new UncleSam());
+	// }
+	// if (key == 82) {
+	// 	game.enemies.push(new Redneck());
+	// }
+
+	// g to place gunbean
 	if (key == 71) {
 		if (game.placing) {
 			game.placing = null;
@@ -18,6 +20,8 @@ window.onkeyup = function(e) {
 			game.placing = new TowerPlace(new GunBean(null).range, 'gunbean', new GunBean(null).cost);
 		}
 	}
+
+	// l to place lazer bean
 	if (key == 76) {
 		if (game.placing) {
 			game.placing = null;
@@ -28,6 +32,17 @@ window.onkeyup = function(e) {
 			game.placing = new TowerPlace(new LazerBean(null).range, 'lazerbean', new LazerBean(null).cost);
 		}
 	}
+
+	// b to place beanberg
+	if (key == 66) {
+		if (game.placing) {
+			game.placing = null;
+		} else {
+			
+		}
+	}
+
+	// esc to cancel placing a tower
 	if (key == 27) {
 		if (game.placing) {
 			game.placing = null;

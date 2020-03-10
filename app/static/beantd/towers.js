@@ -228,10 +228,9 @@ class Tower {
         }
     }
 
-    shoot() {
-        // check all game.enemies to see who is in range and furthest along the path
+    getAvailableEnemies() {
         let available = [];
-
+        
         for (let i = 0; i < game.enemies.length; i++) {
             let dx = Math.abs(this.tile.left + this.tile.width/2 - game.enemies[i].left);
             let dy = Math.abs(this.tile.top + this.tile.height/2 - game.enemies[i].top);
@@ -242,10 +241,10 @@ class Tower {
             }
         }
 
-        if (available.length == 0) {
-            return;
-        }
+        return available;
+    }
 
+    selectEnemy(available) {
         if (this.targeting == 'first') {
             // find furthest along path
             let max_dist = available[0].dist;
@@ -256,22 +255,33 @@ class Tower {
                     index = i;
                 }
             }
-            this.line = {
-                sx: this.tile.left + this.tile.width/2,
-                sy: this.tile.top + this.tile.height/2,
-                ex: available[index].left,
-                ey: available[index].top
-            };
+            return index;
+        }
+    }
 
-            this.direction = 90 + 180*Math.atan((this.line.ey-this.line.sy)/(this.line.ex-this.line.sx))/Math.PI;
-            if (this.line.ex < this.line.sx) {
-                this.direction += 180;
-            }
-            available[index].hp -= this.damage;
+    shoot() {
+        // check all game.enemies to see who is in range and furthest along the path
+        let available = this.getAvailableEnemies();
+
+        if (available.length == 0) {
+            return;
         }
 
-        // add options for strongest/weakest targeting too
-        
+        let index = this.selectEnemy(available);
+
+        this.line = {
+            sx: this.tile.left + this.tile.width/2,
+            sy: this.tile.top + this.tile.height/2,
+            ex: available[index].left,
+            ey: available[index].top
+        };
+
+        this.direction = 90 + 180*Math.atan((this.line.ey-this.line.sy)/(this.line.ex-this.line.sx))/Math.PI;
+        if (this.line.ex < this.line.sx) {
+            this.direction += 180;
+        }
+
+        available[index].hp -= this.damage;
 
         this.cooldown = this.initialCD;
     }
@@ -457,34 +467,12 @@ class LazerBean extends Tower {
 
     shoot() {
         // check all game.enemies to see who is in range and furthest along the path
-        let available = [];
-
-        for (let i = 0; i < game.enemies.length; i++) {
-            let dx = Math.abs(this.tile.left + this.tile.width/2 - game.enemies[i].left);
-            let dy = Math.abs(this.tile.top + this.tile.height/2 - game.enemies[i].top);
-            let dist = Math.sqrt((dx*dx) + (dy*dy));
-
-            if (dist < this.range*50 + 25) {
-                available.push(game.enemies[i]);
-            }
-        }
-
+        let available = this.getAvailableEnemies();
         if (available.length == 0) {
             return;
         }
-        let index;
 
-        if (this.targeting == 'first') {
-            // find furthest along path
-            let max_dist = available[0].dist;
-            index = 0;
-            for (let i = 1; i < available.length; i++) {
-                if (available[i].dist > max_dist) {
-                    max_dist = available[i].dist;
-                    index = i;
-                }
-            }
-        }
+        let index = this.selectEnemy(available);
 
         this.line = {
             sx: this.tile.left + this.tile.width/2,
@@ -521,5 +509,31 @@ class LazerBean extends Tower {
         
 
         this.cooldown = this.initialCD;
+    }
+}
+
+class BeanBerg extends Tower {
+    constructor(tile) {
+        super();
+        this.tile = tile;
+        this.damage = 0;
+        this.range = 1;
+        this.src = 'beanberg';
+        this.cooldown = 120;
+        this.initialCD = this.cooldown;
+        this.cost = 200;
+        this.color = 'yellow'; // can change to represent higher levels
+
+        this.path1 = [
+
+        ];
+
+        this.path2 = [
+
+        ];
+    }
+
+    drawLine() {
+
     }
 }
