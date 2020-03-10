@@ -141,7 +141,7 @@ class Enemy {
         if (this.hp <= 0) {
             game.cash += this.value;
             for (let i = 0; i < game.enemies.length; i++) {
-                if (game.enemies[i].toString() == this.toString()) {
+                if (game.enemies[i].equals(this)) {
                     game.enemies.splice(i,1);
                     return;
                 }
@@ -153,7 +153,7 @@ class Enemy {
     finish() {
         // find self & remove
         for (let i = 0; i < game.enemies.length; i++) {
-            if (game.enemies[i].toString() == this.toString()) {
+            if (game.enemies[i].equals(this)) {
                 game.enemies.splice(i,1);
                 game.hp -= this.damage;
                 return;
@@ -161,8 +161,16 @@ class Enemy {
         }
     }
 
-    toString() {
-        return 'type: ' + this.src + '\thp: ' + this.hp + '\tspeed: ' + this.speed + '\tleft: ' + this.left + '\ttop: ' + this.top + '\tfacing: ' + this.direction;
+    equals(enemy) {
+        if (typeof enemy === "object" && enemy instanceof Enemy) {
+            if (enemy.src === this.src && enemy.hp === this.hp &&
+            enemy.speed === this.speed && enemy.left === this.left &&
+            enemy.top === this.top && enemy.direction === this.direction &&
+            enemy.dist === this.dist) {
+                return true;
+            }
+        }
+        return false;
     }
 }
 
