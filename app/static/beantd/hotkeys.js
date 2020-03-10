@@ -28,4 +28,9 @@ window.onkeyup = function(e) {
 			game.placing = new TowerPlace(new LazerBean(null).range, 'lazerbean', new LazerBean(null).cost);
 		}
 	}
+	if (key == 27) {
+		if (game.placing) {
+			game.placing = null;
+		}
+	}
 }
