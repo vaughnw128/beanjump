@@ -206,6 +206,14 @@ class Tower {
         this.line = null;
         this.path1 = [];
         this.path2 = [];
+        this.final = false;
+    }
+
+    changeSkin() {
+        if (this.path1.length == 0 && this.path2.length == 0 && !this.final) {
+            this.src += 'final';
+            this.final = true;
+        }
     }
 
     drawUpgradeMenu() {
@@ -347,6 +355,8 @@ class Tower {
         if (this.readyToShoot()) {
             this.shoot();
         }
+
+        this.changeSkin();
 
         // supposedly this will draw the image rotated to face its direction
         ctx.save();
