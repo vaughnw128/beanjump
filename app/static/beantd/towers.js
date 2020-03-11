@@ -112,6 +112,23 @@ class LazerBeanIcon extends TowerIcon {
     }
 }
 
+class BeanBergIcon extends TowerIcon {
+    constructor() {
+        super(250, 'beanbergicon');
+    }
+
+    buyTower() {
+        if (game.placing) {
+            game.placing = null;
+            return;
+        }
+        if (new BeanBerg(null).cost > game.cash) {
+            return;
+        }
+        game.placing = new TowerPlace(new BeanBerg(null).range, 'beanberg', new BeanBerg(null).cost);
+    }
+}
+
 // after you select the tower icon/press T
 // it spawns one of these classes
 // this just keeps the tower icon under your mouse + shows radius +
@@ -525,7 +542,7 @@ class BeanBerg extends Tower {
         this.src = 'beanberg';
         this.cooldown = 180;
         this.initialCD = this.cooldown;
-        this.cost = 200;
+        this.cost = 250;
         this.color = 'rgb(255, 255, 0, 0.25)'; // can change to represent higher levels
         this.slow = {
             // 60 = 1 second

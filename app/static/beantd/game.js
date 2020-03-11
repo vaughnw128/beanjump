@@ -19,6 +19,7 @@ class Game {
         this.towerIcons = [];
         this.towerIcons.push(new GunBeanIcon());
         this.towerIcons.push(new LazerBeanIcon());
+        this.towerIcons.push(new BeanBergIcon());
 
         this.wave = null;
         this.onLevel = 1;
