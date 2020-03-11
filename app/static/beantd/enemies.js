@@ -82,6 +82,7 @@ class Enemy {
         this.damage = damage;
         this.randShift = parseInt(Math.random() * 11 - 5);
         this.top += this.randShift;
+        this.dot = 0;
     }
 
     update() {
@@ -89,6 +90,7 @@ class Enemy {
             this.speed = this.realSpeed;
         } else {
             this.slowCD -= 1;
+            this.hp -= this.dot;
         }
         
         let now = new Date().getTime();
