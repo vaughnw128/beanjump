@@ -88,6 +88,7 @@ class Enemy {
     update() {
         if (this.slowCD <= 0) {
             this.speed = this.realSpeed;
+            this.dot = 0;
         } else {
             this.slowCD -= 1;
             this.hp -= this.dot;
