@@ -559,7 +559,8 @@ class BeanBerg extends Tower {
             // 60 = 1 second
             cooldown: 60*4,
             // percentage of original speed
-            percentage: .6
+            percentage: .6,
+            damage: 0
         };
 
         this.path1 = [
@@ -568,13 +569,21 @@ class BeanBerg extends Tower {
                 title: 'go faster',
                 description: 'reduce cooldown between shots',
                 action() {
-                    game.selected.tower.cooldown = 120;
+                    game.selected.tower.cooldown = 0;
+                    game.selected.tower.initialCD = 120;
                 }
             }
         ];
 
         this.path2 = [
-
+            {
+                price: 800,
+                title: 'irradiate',
+                description: 'does aoe damage over time',
+                action() {
+                    game.selected.tower.slow.damage = 0.42;
+                }
+            }
         ];
     }
 
