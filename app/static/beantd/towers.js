@@ -12,7 +12,7 @@ class Tile {
         if (!ctx) {
            let ctx = canvas.getContext('2d');
         }
-        ctx.drawImage(document.getElementById(this.type), this.left, this.top);
+        ctx.drawImage(document.getElementById(this.src), this.left, this.top);
     }
 
     hasCoords(x, y) {
@@ -36,7 +36,7 @@ class Path extends Tile {
     constructor(left, top, direction) {
         super(left, top);
         this.direction = direction;
-        this.src = 'static/beantd/path.png';
+        this.src = 'path';
         this.type = 'path';
         this.buildable = false; // might change if i add walls
     }
@@ -45,7 +45,8 @@ class Path extends Tile {
 class HighGround extends Tile {
     constructor(left, top) {
         super(left, top);
-        this.src = 'static/beantd/highground.png';
+        let rn = parseInt(Math.random() * 4) + 1;
+        this.src = 'highground' + rn;
         this.type = 'highground';
         this.buildable = true;
         this.tower = null;
@@ -562,7 +563,14 @@ class BeanBerg extends Tower {
         };
 
         this.path1 = [
-
+            {
+                price: 300,
+                title: 'go faster',
+                description: 'reduce cooldown between shots',
+                action() {
+                    game.selected.tower.cooldown = 120;
+                }
+            }
         ];
 
         this.path2 = [
