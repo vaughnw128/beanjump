@@ -607,7 +607,9 @@ class BeanBerg extends Tower {
             if (available[i].slowCD <= this.slow.cooldown) {
                 available[i].slowCD = this.slow.cooldown;
                 available[i].speed = available[i].realSpeed*this.slow.percentage;
-                available[i].dot += this.slow.damage;
+                if (available[i].dot < this.slow.damage) {
+                    available[i].dot = this.slow.damage;
+                }
             }
         }
 
