@@ -581,7 +581,7 @@ class BeanBerg extends Tower {
                 title: 'irradiate',
                 description: 'does aoe damage over time',
                 action() {
-                    game.selected.tower.slow.damage = 0.42;
+                    game.selected.tower.slow.damage = 0.4; // damage per tick so make it low
                 }
             }
         ];
