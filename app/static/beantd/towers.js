@@ -45,7 +45,7 @@ class Path extends Tile {
 class HighGround extends Tile {
     constructor(left, top) {
         super(left, top);
-        let rn = parseInt(Math.random() * 4) + 1;
+        let rn = parseInt(Math.random() * 3) + 1;
         this.src = 'highground' + rn;
         this.type = 'highground';
         this.buildable = true;
