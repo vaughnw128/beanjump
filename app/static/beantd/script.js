@@ -4,6 +4,20 @@ canvas.height = 600;
 document.body.appendChild(canvas);
 const ctx = canvas.getContext('2d');
 
+let instructions = document.createElement('p');
+instructions.innerHTML = `<b>instructions</b><br>
+click the "next wave" button to start a wave<br>
+click a tower on the tower menu to select, then click on a grass tile to place<br>
+or use the hotkeys to select a tower:<br>
+<ul>
+	<li>G: select gun bean</li>
+	<li>L: select lazer bean</li>
+	<li>B: select beanberg</li>
+	<li>ESC: click while placing a tower to cancel</li>
+	<li>S: click while a placed tower is selected to sell</li>
+</ul>`;
+document.body.appendChild(instructions);
+
 var mouse_x = 0, mouse_y = 0;
 var game = null;
 var menu = new Menu();
