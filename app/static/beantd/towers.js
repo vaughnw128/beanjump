@@ -638,6 +638,8 @@ class BeanBerg extends Tower {
             damage: 0
         };
 
+        this.fb = this.sb = this.cb = null;
+
         this.path1 = [
             {
                 price: 300,
@@ -660,6 +662,10 @@ class BeanBerg extends Tower {
                 }
             }
         ];
+    }
+
+    drawTargetingMenu() {
+        
     }
 
     drawLine() {
