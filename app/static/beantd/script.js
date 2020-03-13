@@ -102,6 +102,26 @@ canvas.onmousedown = () => {
 			if (mouse_x >= 20 && mouse_x <= 170 && mouse_y >= canvas.height - 60 && mouse_y <= canvas.height - 10) {
 				game.selected.tower.sell();
 			}
+
+			if (game.selected.tower.fb) {
+				if (mouse_x >= game.selected.tower.fb.left && mouse_x <= game.selected.tower.fb.left + game.selected.tower.fb.width &&
+					mouse_y >= game.selected.tower.fb.top && mouse_y <= game.selected.tower.fb.top + game.selected.tower.fb.height) {
+					deselecting = false;
+					game.selected.tower.targeting = 'first';
+				}
+
+				if (mouse_x >= game.selected.tower.cb.left && mouse_x <= game.selected.tower.cb.left + game.selected.tower.cb.width &&
+					mouse_y >= game.selected.tower.cb.top && mouse_y <= game.selected.tower.cb.top + game.selected.tower.cb.height) {
+					deselecting = false;
+					game.selected.tower.targeting = 'close';
+				}
+
+				if (mouse_x >= game.selected.tower.sb.left && mouse_x <= game.selected.tower.sb.left + game.selected.tower.sb.width &&
+					mouse_y >= game.selected.tower.sb.top && mouse_y <= game.selected.tower.sb.top + game.selected.tower.sb.height) {
+					deselecting = false;
+					game.selected.tower.targeting = 'strong';
+				}
+			}
 		}
 
 		// next wave

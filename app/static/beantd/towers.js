@@ -208,6 +208,26 @@ class Tower {
         this.path1 = [];
         this.path2 = [];
         this.final = false;
+        this.fb = {
+            left: 20,
+            top: canvas.height - 140,
+            width: 60,
+            height: 30
+        };
+
+        this.cb = {
+            left: 100,
+            top: canvas.height - 140,
+            width: 60,
+            height: 30
+        };
+
+        this.sb = {
+            left: 20,
+            top: canvas.height - 100,
+            width: 65,
+            height: 30
+        };
     }
 
     changeSkin() {
@@ -215,6 +235,39 @@ class Tower {
             this.src += 'final';
             this.final = true;
         }
+    }
+
+    drawTargetingMenu() {
+        // first, close, strong
+        ctx.fillStyle = 'black';
+        ctx.strokeStyle = 'black';
+        ctx.font = '20px Calibri';
+        ctx.lineWidth = 1;
+
+        ctx.beginPath();
+        ctx.rect(this.fb.left, this.fb.top, this.fb.width, this.fb.height);
+        ctx.rect(this.cb.left, this.cb.top, this.cb.width, this.cb.height);
+        ctx.rect(this.sb.left, this.sb.top, this.sb.width, this.sb.height);
+        ctx.stroke();
+        ctx.fillText('first', this.fb.left + 10, this.fb.top + 20);
+        ctx.fillText('close', this.cb.left + 10, this.cb.top + 20);
+        ctx.fillText('strong', this.sb.left + 8, this.sb.top + 20);
+        ctx.stroke();
+
+        ctx.strokeStyle = 'red';
+        ctx.lineWidth = 3;
+
+        ctx.beginPath();
+
+        if (this.targeting == 'first') {
+            ctx.rect(this.fb.left, this.fb.top, this.fb.width, this.fb.height);
+        } else if (this.targeting == 'close') {
+            ctx.rect(this.cb.left, this.cb.top, this.cb.width, this.cb.height);
+        } else if (this.targeting == 'strong') {
+            ctx.rect(this.sb.left, this.sb.top, this.sb.width, this.sb.height);
+        }
+        
+        ctx.stroke();
     }
 
     drawUpgradeMenu() {
@@ -256,6 +309,7 @@ class Tower {
             ctx.fillText(this.path2[0].description, 505, canvas.height - 90);
             ctx.fillText(`$${this.path2[0].price}`, 600, canvas.height - 50);
         }
+        this.drawTargetingMenu();
     }
 
     getAvailableEnemies() {
@@ -275,18 +329,39 @@ class Tower {
     }
 
     selectEnemy(available) {
+        let index = 0;
+
         if (this.targeting == 'first') {
             // find furthest along path
             let max_dist = available[0].dist;
-            let index = 0;
             for (let i = 1; i < available.length; i++) {
                 if (available[i].dist > max_dist) {
                     max_dist = available[i].dist;
                     index = i;
                 }
             }
-            return index;
+        } else if (this.targeting == 'close') {
+            let min_dist = distBetween(available[0].left, available[0].top,
+                this.tile.left + this.tile.width/2, this.tile.top + this.tile.height/2);
+            for (let i = 1; i < available.length; i++) {
+                if (distBetween(available[i].left, available[i].top,
+                this.tile.left + this.tile.width/2, this.tile.top + this.tile.height/2) < min_dist) {
+                    min_dist = distBetween(available[i].left, available[i].top,
+                        this.tile.left + this.tile.width/2, this.tile.top + this.tile.height/2);
+                    index = i;
+                }
+            }
+        } else if (this.targeting == 'strong') {
+            let max_hp = available[0].hp;
+            for (let i = 1; i < available.length; i++) {
+                if (available[i].hp > max_hp) {
+                    max_hp = available[i].hp;
+                    index = i;
+                }
+            }
         }
+
+        return index;
     }
 
     shoot() {

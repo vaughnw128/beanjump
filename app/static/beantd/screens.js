@@ -74,6 +74,7 @@ function drawGame() {
     ctx.fillRect(0, canvas.height - 150, canvas.width, canvas.height);
     if (game.selected) {
         game.selected.tower.drawUpgradeMenu();
+        ctx.lineWidth = 1;
         ctx.strokeStyle = 'black';
         ctx.beginPath();
         ctx.rect(20, canvas.height - 60, 150, 50);
